@@ -1,0 +1,57 @@
+package com.warrencrasta.fantasy.yahoo.config.ssl;
+
+import org.apache.catalina.connector.Connector;
+import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
+import org.springframework.boot.web.server.WebServerFactoryCustomizer;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
+
+/**
+ * Bu yapılandırma (config), SADECE "prod" (Railway) profilinde çalışır.
+ * Amacı, Tomcat'e (Spring Boot'un sunucusu) Railway gibi bir proxy'nin
+ * (HTTPS sonlandıran) arkasında çalıştığını bildirmektir.
+ */
+@Profile("prod")
+@Configuration
+public class ProdWebConfig {
+
+    /**
+     * Bu bean, Spring Boot'a gelen X-Forwarded-Proto (HTTPS)
+     * başlıklarını (headers) tanımasını ve kullanmasını emreder.
+     * Bu, 'invalid_redirect_uri' (http/https) hatasını çözer.
+     * * Bu, 'server.forward-headers-strategy=FRAMEWORK' ayarının 
+     * Java koduyla yapılmış halidir ve daha güçlüdür.
+     */
+    @Bean
+    public WebServerFactoryCustomizer<TomcatServletWebServerFactory> tomcatCustomizer() {
+        return factory -> {
+            factory.addAdditionalTomcatConnectors(createForwardedHeaderConnector());
+            
+            // Ayrıca, Tomcat'in kendisine de proxy'nin arkasında olduğunu söyleyelim
+            // Bu, 'setUseForwardHeaders(true)' metodunun yerini alır
+            factory.getTomcatProtocolHandlerCustomizers()
+                   .add(protocolHandler -> {
+                       protocolHandler.setProperty("scheme", "https");
+                       protocolHandler.setProperty("secure", "true");
+                   });
+        };
+    }
+
+    /**
+     * Railway'in X-Forwarded-* başlıklarını dinleyecek bir Tomcat Connector'u oluşturur.
+     */
+    private Connector createForwardedHeaderConnector() {
+        Connector connector = new Connector("org.apache.coyote.http11.Http11NioProtocol");
+        connector.setScheme("https");
+        connector.setSecure(true);
+        
+        // Railway'in hangi portu atadığını bilmiyoruz, bu yüzden Spring'in portunu dinle
+        // Spring Boot 2.6.0'da bu ayar Tomcat'in ana portunu devralır
+        
+        // 'X-Forwarded-Proto' başlığını (header) kullanmasını etkinleştir
+        connector.setProperty("protocolHeader", "X-Forwarded-Proto");
+        
+        return connector;
+    }
+}
