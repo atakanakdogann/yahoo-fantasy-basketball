@@ -8,7 +8,7 @@ COPY src ./src
 
 RUN mvn clean install -DskipTests
 
-FROM openjdk:21-slim
+FROM eclipse-temurin:21-jre-slim
 
 WORKDIR /app
 COPY --from=build /app/target/yahoo-fantasy-basketball-1.0.0.jar app.jar
