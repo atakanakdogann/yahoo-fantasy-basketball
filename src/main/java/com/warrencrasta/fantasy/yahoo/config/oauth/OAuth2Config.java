@@ -54,9 +54,5 @@ public class OAuth2Config {
         .exchangeStrategies(strategies)
         .build();
   }
-  @Bean
-  public ForwardedHeaderFilter forwardedHeaderFilter() {
-    return new ForwardedHeaderFilter();
-  }
 }
 
