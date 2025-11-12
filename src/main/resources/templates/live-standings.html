@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/main}">
+<head>
+  <title>Live Standings</title>
+</head>
+<body>
+
+<main layout:fragment="content">
+  
+  <div class="glass-card"> 
+    
+    <div class="card-header p-3">
+      <h1 class="h4 mb-0">Live Standings</h1>
+    </div>
+    
+    <div class="card-body">
+      <p class="text-muted small"> This table shows the projected standings by combining the official standings with the live scores from the current week.
+      </p>
+
+      <div class="table-responsive">
+        <table aria-label="Live Standings" id="live-standings-table" 
+               class="table table-striped table-hover align-middle"> 
+               
+          <thead class="thead-dark"> <tr>
+              <th scope="col">Rank</th>
+              <th scope="col">Team Name</th>
+              <th scope="col">Live Record (W/L/T)</th>
+              <th scope="col">Win Pct.</th>
+            </tr>
+          </thead>
+          <tbody>
+             <tr class="table-secondary text-center">
+                <td colspan="4">Select a league to view data.</td>
+             </tr>
+          </tbody>
+        </table>
+      </div>
+    </div> 
+  </div> 
+</main>
+
+<th:block layout:fragment="page-scripts">
+  <script th:src="@{/js/live-standings.js}"></script>
+</th:block>
+
+</body>
+</html>

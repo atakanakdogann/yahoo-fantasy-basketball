@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/main}">
+<head>
+  <title>Matchup Comparisons</title>
+</head>
+<body>
+
+<main layout:fragment="content">
+
+  <div class="glass-card">
+    <div class="card-header p-3">
+      <h1 class="h4 mb-0">Matchup Comparisons</h1>
+    </div>
+    
+    <div class="card-body">
+      <p class="text-muted small">
+        Select your team from the sidebar to see a real-time comparison of your stats against every other opponent in the league for that week.
+      </p>
+
+      <div class="table-responsive">
+        <table aria-label="Matchup Comparisons" id="matchups" 
+               class="table table-striped table-hover align-middle">
+          
+          <thead class="thead-dark">
+            <tr>
+              <th scope="col">Opponent</th>
+              <th scope="col">Categories Won</th>
+              <th scope="col">Categories Lost</th>
+              <th scope="col">Categories Tied</th>
+            </tr>
+          </thead>
+          <tbody>
+             <tr class="table-secondary text-center">
+                <td colspan="4">Select a league, week, and team to view matchups.</td>
+             </tr>
+          </tbody>
+        </table>
+      </div>
+    </div> </div> </main>
+
+<th:block layout:fragment="page-scripts">
+  <script th:src="@{/js/matchup-comparisons.js}"></script>
+</th:block>
+
+</body>
+</html>

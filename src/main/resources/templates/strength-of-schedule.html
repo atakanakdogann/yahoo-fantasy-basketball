@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/main}">
+<head>
+  <title>Remaining Schedule Strength</title>
+</head>
+<body>
+
+<main layout:fragment="content">
+  
+  <div class="glass-card">
+    <div class="card-header p-3">
+      <h1 class="h4 mb-0">Remaining Schedule Strength</h1>
+    </div>
+    
+    <div class="card-body">
+      <p class="text-muted small">
+        This table shows the difficulty of each team's remaining schedule. The score is the average opponent win rate for all remaining games.
+      </p>
+      <p class="text-muted small">
+        <b>High Score = Hard Schedule</b> (Playing against strong opponents)<br>
+        <b>Low Score = Easy Schedule</b> (Playing against weak opponents)
+      </p>
+
+      <div class="table-responsive">
+        <table aria-label="Strength of Schedule" id="sos-table" 
+               class="table table-striped table-hover align-middle">
+          
+          <thead class="thead-dark"> <tr>
+              <th scope="col">Rank</th>
+              <th scope="col">Team Name</th>
+              <th scope="col">Schedule Strength Pct.</th>
+            </tr>
+          </thead>
+          <tbody>
+             <tr class="table-secondary text-center">
+                <td colspan="3">Select a league to view data.</td>
+             </tr>
+          </tbody>
+        </table>
+      </div>
+    </div> </div> </main>
+
+<th:block layout:fragment="page-scripts">
+  <script th:src="@{/js/strength-of-schedule.js}"></script>
+</th:block>
+
+</body>
+</html>

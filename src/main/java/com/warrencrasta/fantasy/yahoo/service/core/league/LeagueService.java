@@ -1,0 +1,17 @@
+package com.warrencrasta.fantasy.yahoo.service.core.league;
+
+import com.warrencrasta.fantasy.yahoo.domain.stat.StatCategory;
+import com.warrencrasta.fantasy.yahoo.dto.internal.LeagueInfoDTO;
+import java.util.List;
+import java.util.Map;
+
+public interface LeagueService {
+
+  LeagueInfoDTO getLeagueInfo(String leagueId);
+
+  LeagueInfoDTO getLeagueInfoWithSos(String leagueId);
+
+  List<StatCategory> getRelevantCategories(String leagueId);
+
+  Map<String, Double> getLeagueWinRates(String leagueId);
+}
