@@ -6,7 +6,7 @@ COPY pom.xml .
 
 COPY src ./src
 
-RUN mvn clean install -DskipTests
+RUN mvn clean install -Dmaven.test.skip=true
 
 FROM eclipse-temurin:21-jre-alpine
 
