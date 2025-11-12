@@ -9,6 +9,7 @@ import org.springframework.security.oauth2.client.registration.ClientRegistratio
 import org.springframework.security.oauth2.client.web.DefaultOAuth2AuthorizedClientManager;
 import org.springframework.security.oauth2.client.web.OAuth2AuthorizedClientRepository;
 import org.springframework.security.oauth2.client.web.reactive.function.client.ServletOAuth2AuthorizedClientExchangeFilterFunction;
+import org.springframework.web.filter.ForwardedHeaderFilter;
 import org.springframework.web.reactive.function.client.ExchangeStrategies;
 import org.springframework.web.reactive.function.client.WebClient;
 
@@ -53,4 +54,8 @@ public class OAuth2Config {
         .exchangeStrategies(strategies)
         .build();
   }
+}
+@Bean
+public ForwardedHeaderFilter forwardedHeaderFilter() {
+  return new ForwardedHeaderFilter();
 }
