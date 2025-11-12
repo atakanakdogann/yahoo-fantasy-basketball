@@ -42,14 +42,4 @@ public class OAuth2LoginSecurityConfig { // Artık 'extends WebSecurityConfigure
   RequestRejectedHandler requestRejectedHandler() {
     return new HttpStatusRequestRejectedHandler();
   }
-
-  /*
-  * 'invalid_redirect_uri' HATASINI ÇÖZEN BEAN
-  * Bu, Spring'e Railway'in 'X-Forwarded-Proto' (HTTPS)
-  * başlığını (header) tanımasını ve kullanmasını söyler.
-  */
-  @Bean
-  public ForwardedHeaderFilter forwardedHeaderFilter() {
-    return new ForwardedHeaderFilter();
-  }
 }
