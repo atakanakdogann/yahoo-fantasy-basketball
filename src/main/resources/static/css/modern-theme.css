@@ -129,3 +129,10 @@ body.signin-body .glass-card p {
     text-decoration: none;
     box-shadow: 0 4px 15px 0 rgba(168, 85, 247, 0.5);
 }
+@media (max-width: 767.98px) {
+    .glass-sidebar.offcanvas-md {
+        /* Mobilde arka planı daha koyu yap ki alttaki yazılar karışmasın */
+        background: rgba(15, 15, 30, 0.95) !important; 
+        backdrop-filter: blur(20px) saturate(180%);
+    }
+}
