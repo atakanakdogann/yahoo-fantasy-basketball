@@ -21,4 +21,14 @@ public class TeamDTO {
   private TeamStandingsDTO teamStandings;
 
   private List<MatchupWrapperDTO> matchups;
+
+  // >> YENİ EKLENEN ALAN (Kadro için - /team/.../roster)
+  private PlayersDTO roster; 
+
+  
+
+  /* >> YENİ YARDIMCI METOT (Roster'ı almak için)
+  public List<PlayerWrapperDTO> getPlayers() {
+    return (roster != null) ? roster.getPlayers() : List.of();
+  }*/
 }

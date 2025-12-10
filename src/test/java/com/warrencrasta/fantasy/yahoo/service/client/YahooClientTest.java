@@ -1,7 +1,9 @@
 package com.warrencrasta.fantasy.yahoo.service.client;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.mock; // >> Mockito'yu ekledik
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.warrencrasta.fantasy.yahoo.dto.external.yahoo.FantasyContentDTO;
 import com.warrencrasta.fantasy.yahoo.dto.external.yahoo.GameWrapperDTO;
 import java.io.IOException;
@@ -15,6 +17,7 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.security.oauth2.client.OAuth2AuthorizedClientManager;
 import org.springframework.web.reactive.function.client.WebClient;
 
 class YahooClientTest {
@@ -35,8 +38,15 @@ class YahooClientTest {
 
   @BeforeEach
   void initialize() {
-    this.yahooClient =
-        new YahooClient(WebClient.builder().build(), mockBackEnd.url("/").toString());
+    // OAuth2 yöneticisini 'mock'luyoruz (taklit ediyoruz), çünkü testte login'e ihtiyacımız yok
+    OAuth2AuthorizedClientManager mockAuthManager = mock(OAuth2AuthorizedClientManager.class);
+
+    this.yahooClient = new YahooClient(
+        WebClient.builder(),               // 1. Parametre: Builder (Artık direkt WebClient değil)
+        mockAuthManager,                   // 2. Parametre: Mock Auth Manager
+        mockBackEnd.url("/").toString(),   // 3. Parametre: Base URL
+        new ObjectMapper()                 // 4. Parametre: Mapper
+    );
   }
 
   @Test

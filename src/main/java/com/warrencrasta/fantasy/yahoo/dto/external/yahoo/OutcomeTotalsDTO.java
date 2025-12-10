@@ -6,6 +6,7 @@ import lombok.Data;
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class OutcomeTotalsDTO {
+  
   private String wins;
   private String losses;
   private String ties;

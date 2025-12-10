@@ -7,18 +7,20 @@ import lombok.Data;
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class StatDTO {
-
-  @JsonAlias({"stat_id"})
+    
+  @JsonAlias({"stat_id", "statId"})
   private String statId;
 
-  @JsonAlias({"display_name"})
+  private String value; // Oyuncu istatistiği için
+  
+  // === YENİ EKLENEN KRİTİK ALANLAR (Hataları çözer) ===
+  
+  @JsonAlias({"display_name", "displayName"})
   private String displayName;
-
-  @JsonAlias({"sort_order"})
-  private String sortOrder;
-
-  @JsonAlias({"is_only_display_stat"})
+  
+  @JsonAlias({"is_only_display_stat", "isOnlyDisplayStat"}) 
   private String isOnlyDisplayStat;
-
-  private String value;
+  
+  @JsonAlias({"sort_order", "sortOrder"})
+  private String sortOrder;
 }

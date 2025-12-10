@@ -12,6 +12,7 @@ import org.springframework.security.oauth2.client.web.reactive.function.client.S
 import org.springframework.web.filter.ForwardedHeaderFilter;
 import org.springframework.web.reactive.function.client.ExchangeStrategies;
 import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.util.DefaultUriBuilderFactory;
 
 @Configuration
 public class OAuth2Config {
@@ -48,8 +49,11 @@ public class OAuth2Config {
             .defaultCodecs()
             .maxInMemorySize(bufferSize))
         .build();
+    DefaultUriBuilderFactory factory = new DefaultUriBuilderFactory();
+    factory.setEncodingMode(DefaultUriBuilderFactory.EncodingMode.NONE);
 
     return WebClient.builder()
+        .uriBuilderFactory(factory)
         .apply(oauth2Client.oauth2Configuration())
         .exchangeStrategies(strategies)
         .build();

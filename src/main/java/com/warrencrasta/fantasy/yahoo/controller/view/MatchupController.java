@@ -41,4 +41,11 @@ public class MatchupController {
     model.addAttribute("seasons", seasons);
     return "live-standings";
   }
+
+  @GetMapping("/trade-analyzer")
+  public String tradeAnalyzer(Model model) {
+    var seasons = userService.getSeasonsForUser();
+    model.addAttribute("seasons", seasons);
+    return "trade-analyzer";
+  }
 }

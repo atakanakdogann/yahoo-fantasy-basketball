@@ -21,10 +21,8 @@ public class LeagueDTO {
   private String startWeek;
 
   private List<TeamWrapperDTO> teams;
-
   private ScoreboardDTO scoreboard;
-
   private SettingsDTO settings;
-
   private StandingsDTO standings;
+  private PlayersDTO players;
 }

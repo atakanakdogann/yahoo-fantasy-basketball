@@ -87,22 +87,38 @@ public class YahooLeagueServiceImpl implements LeagueService {
     uriVariables.put("league_key", leagueId);
     var resourceUriFragment = "/league/{league_key}/settings";
 
+    // 1. Veriyi çek
     FantasyContentDTO fantasyContent =
         yahooClient.getFantasyContent(uriVariables, resourceUriFragment);
+    
+    // DTO'ların doğru yüklendiğinden emin olmak için null kontrolü
+    if (fantasyContent == null || fantasyContent.getLeague() == null 
+        || fantasyContent.getLeague().getSettings() == null 
+        || fantasyContent.getLeague().getSettings().getStatCategories() == null) {
+      return List.of();
+    }
+        
     List<StatWrapperDTO> statWrapperDTOs =
         fantasyContent.getLeague().getSettings().getStatCategories().getStats();
 
     List<StatCategory> relevantCategories = new ArrayList<>();
     for (StatWrapperDTO statWrapperDTO : statWrapperDTOs) {
-      var statDTO = statWrapperDTO.getStat();
-      if (statDTO.getIsOnlyDisplayStat() != null) {
+      // getStat() Lombok tarafından StatWrapperDTO içinde oluşturulmuştur
+      var statDTO = statWrapperDTO.getStat(); 
+      
+      // 2. Sadece ana istatistikleri filtrele (sadece görüntüleme statlarını atla)
+      // EKSİK METOTLAR ARTIK 1. ADIM'DA EKLENDİĞİ İÇİN BU ÇALIŞIR
+      if (statDTO.getIsOnlyDisplayStat() != null && statDTO.getIsOnlyDisplayStat().equals("1")) {
         continue;
       }
 
-      var statCategory = new StatCategory();
+      // 3. Yeni StatCategory nesnesini oluştur ve doldur
+      var statCategory = new StatCategory(); // >> Boş constructor (@NoArgsConstructor) kullanılır
+      
       statCategory.setId(statDTO.getStatId());
-      statCategory.setName(statDTO.getDisplayName());
-      statCategory.setBad(statDTO.getSortOrder().equals("0"));
+      statCategory.setName(statDTO.getDisplayName()); // >> getDisplayName() artık var
+      // Sort Order 0 ise kötüdür (örn: TO), 1 ise iyidir
+      statCategory.setBad(statDTO.getSortOrder().equals("0")); // >> getSortOrder() artık var
 
       relevantCategories.add(statCategory);
     }

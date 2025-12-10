@@ -13,5 +13,6 @@ public class GameDTO {
   private String gameId;
 
   private String season;
+  
   private List<LeagueWrapperDTO> leagues;
 }
