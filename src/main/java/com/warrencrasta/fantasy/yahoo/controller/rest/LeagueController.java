@@ -28,9 +28,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-
-
-
 @RestController
 @RequestMapping("/leagues")
 @Validated
@@ -44,9 +41,9 @@ public class LeagueController {
   private final RosterService rosterService;
   private final TradeAnalyzerService tradeAnalyzerService;
 
-  public LeagueController(LeagueService leagueService, ScoreboardService scoreboardService, 
+  public LeagueController(LeagueService leagueService, ScoreboardService scoreboardService,
       PowerRankingService powerRankingService, LiveStandingsService liveStandingsService,
-      PlayerService playerService, RosterService rosterService, 
+      PlayerService playerService, RosterService rosterService,
       TradeAnalyzerService tradeAnalyzerService) {
     this.leagueService = leagueService;
     this.liveStandingsService = liveStandingsService;
@@ -86,41 +83,24 @@ public class LeagueController {
 
   // Bir takımın kadrosunu getirir (Dropdown doldurmak için)
   @GetMapping("/{leagueId}/team/{teamKey}/roster")
-  public List<PlayerDTO> getTeamRoster(@PathVariable String leagueId, 
+  public List<PlayerDTO> getTeamRoster(@PathVariable String leagueId,
       @PathVariable String teamKey) {
     return rosterService.getTeamRoster(teamKey);
   }
 
-  // Boştaki oyuncuları getirir ("Filler Player" araması için)
-  @GetMapping("/{leagueId}/free-agents")
-  public List<PlayerDTO> getFreeAgents(@PathVariable String leagueId) {
-    return rosterService.getFreeAgents(leagueId);
-  }
-  /*
-  // Bir oyuncunun haftalık istatistiğini getirir (Test/Debug için)
-  @GetMapping("/player/{playerKey}/stats/week")
-  public PlayerDTO getPlayerWeeklyStats(@PathVariable String playerKey, 
-      @RequestParam String week) {
-    return playerService.getPlayerStatsForWeek(playerKey, week);
-  }
-*/
   @PostMapping("/{leagueId}/team/{teamKey}/analyze-trade")
   public TradeAnalysisResultDTO analyzeTrade(
       @PathVariable String leagueId,
       @PathVariable String teamKey,
       @RequestBody TradeAnalysisRequestDTO request) {
-  
+
     return tradeAnalyzerService.analyzeTrade(leagueId, teamKey, request);
   }
 
-  @GetMapping("/league/{leagueKey}/free-agents")
-  public ResponseEntity<List<PlayerDTO>> searchFreeAgents(
-          @PathVariable String leagueKey,
-          @RequestParam(required = false, defaultValue = "") String query) {
-      
-    // Gelen sorguyu loglayalım ki emin olalım
-    System.out.println("Free Agent Search Request: " + query);
-    
-    return ResponseEntity.ok(playerService.searchFreeAgents(leagueKey, query));
+  // Boştaki oyuncuları getirir ("Filler Player" araması için)
+  @GetMapping("/{leagueId}/free-agents")
+  public List<PlayerDTO> getFreeAgents(@PathVariable String leagueId,
+      @RequestParam(required = false, defaultValue = "") String query) {
+    return playerService.searchFreeAgents(leagueId, query);
   }
 }

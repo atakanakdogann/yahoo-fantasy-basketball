@@ -1,15 +1,10 @@
 $(document).ready(function () {
 
-  $("#menu-toggle").click(function (e) {
-    e.preventDefault();
-    $("#wrapper").toggleClass("toggled");
-  });
-
   $('#season').on('change', function () {
     var seasonId = $(this).val();
     $('#league').empty().append('<option disabled="disabled" selected="selected">Loading leagues...</option>');
-    $('#live-standings-table tbody').html('<tr class="table-secondary text-center"><td colspan="4">Select a League</td></tr>');
-    
+    $('#live-standings-table tbody').html('<tr class="bg-slate-800/30 text-slate-400 text-center"><td colspan="4">Select a League</td></tr>');
+
     if ($.fn.DataTable.isDataTable('#live-standings-table')) {
       $('#live-standings-table').DataTable().destroy();
     }
@@ -36,19 +31,19 @@ $(document).ready(function () {
       dataTableInstance.destroy();
     }
 
-    $tableBody.html('<tr class="table-secondary text-center"><td colspan="4">Live Standings Calculating...</td></tr>');
+    $tableBody.html('<tr class="bg-slate-800/30 text-slate-400 text-center"><td colspan="4">Live Standings Calculating...</td></tr>');
 
     $.get("/leagues/" + leagueId + "/live-standings", function (data) {
       var teams = data;
       $tableBody.empty();
       if (!teams || teams.length === 0) {
-        $tableBody.html('<tr class="table-secondary text-center"><td colspan="4">Data not found.</td></tr>');
+        $tableBody.html('<tr class="bg-slate-800/30 text-slate-400 text-center"><td colspan="4">Data not found.</td></tr>');
         return;
       }
 
       $.each(teams, function (index, team) {
-        
-        var rowClass = ''; 
+
+        var rowClass = '';
 
         var won = team.totalCategoriesWon;
         var tied = team.totalCategoriesTied;
@@ -58,26 +53,27 @@ $(document).ready(function () {
 
         var winRateStr = team.winRate.toFixed(3);
         if (winRateStr.startsWith("0")) {
-             winRateStr = winRateStr.substring(1);
+          winRateStr = winRateStr.substring(1);
         }
 
-        if (index === 0) { rowClass = 'bg-success-dark'; }
-        else if (index === 1) { rowClass = 'bg-success-medium'; }
-        else if (index === 2) { rowClass = 'bg-success-light'; }
-        else if (index === teams.length - 1) { rowClass = 'bg-danger-dark'; }
-        else if (index === teams.length - 2) { rowClass = 'bg-danger-medium'; }
-        else if (index === teams.length - 3) { rowClass = 'bg-danger-light'; }
+        if (index === 0) { rowClass = 'bg-emerald-500/30 text-emerald-200'; }
+        else if (index === 1) { rowClass = 'bg-emerald-500/20 text-emerald-200'; }
+        else if (index === 2) { rowClass = 'bg-emerald-500/10 text-emerald-200'; }
+        else if (index === teams.length - 1) { rowClass = 'bg-red-500/30 text-red-200'; }
+        else if (index === teams.length - 2) { rowClass = 'bg-red-500/20 text-red-200'; }
+        else if (index === teams.length - 3) { rowClass = 'bg-red-500/10 text-red-200'; }
+        else { rowClass = 'bg-transparent text-slate-300'; }
 
         var row =
           `<tr class="${rowClass}">
-            <td>${index + 1}</td>
-            <td>
+            <td class="px-4 py-3">${index + 1}</td>
+            <td class="px-4 py-3 font-medium text-white">
               ${team.name}
             </td>
-            <td>${recordString}</td>
-            <td><b>${winRateStr}</b></td>
+            <td class="px-4 py-3">${recordString}</td>
+            <td class="px-4 py-3 font-bold">${winRateStr}</td>
           </tr>`;
-        
+
         $tableBody.append(row);
       });
 
@@ -86,7 +82,7 @@ $(document).ready(function () {
         "paging": false,
         "info": false,
         "autoWidth": false,
-        "order": [[ 0, "asc" ]] 
+        "order": [[0, "asc"]]
       });
     });
   });

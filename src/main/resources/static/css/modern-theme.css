@@ -1,138 +1,28 @@
-[data-bs-theme="dark"] body {
-    background-color: #0f172a; 
-    background-image: radial-gradient(at 0% 0%, hsla(253, 40%, 21%, 0.3) 0px, transparent 50%), 
-                      radial-gradient(at 100% 90%, hsla(242, 60%, 25%, 0.3) 0px, transparent 50%);
-    background-attachment: fixed;
-    background-size: cover;
-    color: #e2e8f0;
+/* Global Overrides */
+body {
+    background-color: #0f172a; /* Slate 900 */
 }
 
-.glass-card {
-    background: rgba(255, 255, 255, 0.05); 
-    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-    backdrop-filter: blur(12px) saturate(150%);
-    -webkit-backdrop-filter: blur(12px) saturate(150%);
-    border-radius: 1rem;
-    border: 1px solid rgba(255, 255, 255, 0.18);
-    
-    color: #e2e8f0 !important; 
-}
-
-.glass-card .card-header {
-    background: rgba(255, 255, 255, 0.1); 
-    border-bottom: 1px solid rgba(255, 255, 255, 0.18);
-}
-.glass-card .card-body p {
-    color: #cbd5e1 !important; 
-}
-
-.glass-card table.table-striped {
-    --bs-table-bg: transparent;
-    --bs-table-striped-bg: rgba(255, 255, 255, 0.02);
-    --bs-table-color: #e2e8f0;
-    --bs-table-border-color: rgba(255, 255, 255, 0.15);
-}
-
-.glass-navbar {
-    background: rgba(20, 20, 35, 0.35) !important;
-    backdrop-filter: blur(10px) saturate(150%);
-    -webkit-backdrop-filter: blur(10px) saturate(150%);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.125) !important;
-}
-
-.glass-sidebar {
-    background: rgba(20, 20, 35, 0.35) !important;
-    backdrop-filter: blur(10px) saturate(150%);
-    -webkit-backdrop-filter: blur(10px) saturate(150%);
-    border-right: 1px solid rgba(255, 255, 255, 0.125) !important;
-}
-
-#sidebarMenu .form-select {
-    background-color: rgba(15, 23, 42, 0.5);
-    border-color: rgba(255, 255, 255, 0.1);
-}
-#sidebarMenu .form-select:focus {
-    border-color: #a855f7;
-    box-shadow: 0 0 0 0.25rem rgba(168, 85, 247, 0.25);
-}
-
-.bootstrap-select .dropdown-toggle {
-    background-color: rgba(15, 23, 42, 0.5) !important;
-    color: #e2e8f0 !important;
-    border: 1px solid rgba(255, 255, 255, 0.1) !important;
-    border-radius: var(--bs-border-radius) !important;
-}
-.bootstrap-select .dropdown-toggle:focus,
-.bootstrap-select .dropdown-toggle.show {
-    border-color: #a855f7 !important; 
-    box-shadow: 0 0 0 0.25rem rgba(168, 85, 247, 0.25) !important;
-}
-.bootstrap-select .dropdown-toggle .filter-option-inner-inner {
-    color: #e2e8f0; 
-}
-
-.bootstrap-select .dropdown-menu {
-    background: rgba(30, 30, 47, 0.9) !important; 
-    backdrop-filter: blur(10px) saturate(150%);
-    -webkit-backdrop-filter: blur(10px) saturate(150%);
-    border: 1px solid rgba(255, 255, 255, 0.125);
-    border-radius: 0.5rem;
-    padding: 0.5rem 0;
-}
-
-.bootstrap-select .dropdown-item {
-    color: #e2e8f0;
-}
-.bootstrap-select .dropdown-item.selected,
-.bootstrap-select .dropdown-item.active {
-    background-color: #a855f7; 
-    color: white;
-}
-.bootstrap-select .dropdown-item:hover,
-.bootstrap-select .dropdown-item:focus {
-    background-color: rgba(168, 85, 247, 0.25); 
-    color: white;
-}
-.bootstrap-select .bs-searchbox .form-control {
-    background-color: rgba(15, 23, 42, 0.7) !important;
-    color: white !important;
-    border: 1px solid rgba(255, 255, 255, 0.1) !important;
-}
-body.signin-body {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 100vh; 
-  background: url("/images/bg.jpg") no-repeat center center fixed;
-  background-size: cover;
-  color: #e2e8f0; 
-}
-
-body.signin-body .glass-card h1,
-body.signin-body .glass-card p {
-    color: #e2e8f0 !important;
-}
-
-.btn-gradient-primary {
-    background-image: linear-gradient(to right, #a855f7 0%, #d946ef 50%, #a855f7 100%);
-    background-size: 200% auto;
-    color: white;
-    border: none;
-    border-radius: 0.5rem;
-    transition: 0.5s;
-    box-shadow: 0 4px 15px 0 rgba(168, 85, 247, 0.3);
-}
-
-.btn-gradient-primary:hover {
-    background-position: right center;
-    color: #fff;
-    text-decoration: none;
-    box-shadow: 0 4px 15px 0 rgba(168, 85, 247, 0.5);
-}
-@media (max-width: 767.98px) {
-    .glass-sidebar.offcanvas-md {
-        /* Mobilde arka planı daha koyu yap ki alttaki yazılar karışmasın */
-        background: rgba(15, 15, 30, 0.95) !important; 
-        backdrop-filter: blur(20px) saturate(180%);
+/* Animations */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translate3d(0, 20px, 0);
     }
+    to {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+    }
+}
+
+.animate-fade-in-up {
+    animation: fadeInUp 0.5s ease-out forwards;
+}
+
+/* Glass Card Helper (Optional if not using Tailwind utilities entirely) */
+.glass-effect {
+    background: rgba(30, 41, 59, 0.7);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
 }

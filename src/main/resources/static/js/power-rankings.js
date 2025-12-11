@@ -1,10 +1,5 @@
 $(document).ready(function () {
 
-  $("#menu-toggle").click(function (e) {
-    e.preventDefault();
-    $("#wrapper").toggleClass("toggled");
-  });
-
   var dataTableInstance = null;
 
   $('#season').on('change', function () {
@@ -15,7 +10,7 @@ $(document).ready(function () {
     if ($.fn.DataTable.isDataTable('#pr-table')) {
       dataTableInstance.destroy();
     }
-    $tableBody.html('<tr class="table-secondary text-center"><td colspan="4">Select a league to continue.</td></tr>');
+    $tableBody.html('<tr class="bg-slate-800/30 text-slate-400 text-center"><td colspan="4">Select a league to continue.</td></tr>');
 
     $.get("/seasons/" + seasonId + "/leagues", function (data) {
       var $leagueDropdown = $('#league');
@@ -36,49 +31,50 @@ $(document).ready(function () {
     if ($.fn.DataTable.isDataTable('#pr-table')) {
       dataTableInstance.destroy();
     }
-    
-    $tableBody.html('<tr class="table-secondary text-center"><td colspan="4">Calculating Power Rankings... Please wait.</td></tr>');
+
+    $tableBody.html('<tr class="bg-slate-800/30 text-slate-400 text-center"><td colspan="4">Calculating Power Rankings... Please wait.</td></tr>');
 
     $.get("/leagues/" + leagueId + "/power-rankings", function (data) {
       var teams = data;
       $tableBody.empty();
 
       if (!teams || teams.length === 0) {
-        $tableBody.html('<tr class="table-secondary text-center"><td colspan="4">No data found for this league.</td></tr>');
+        $tableBody.html('<tr class="bg-slate-800/30 text-slate-400 text-center"><td colspan="4">No data found for this league.</td></tr>');
         return;
       }
 
       $.each(teams, function (index, team) {
-        
-        var rowClass = ''; 
+
+        var rowClass = '';
 
         var winRate = team.winRate;
         var winRateStr = winRate ? winRate.toFixed(3) : "0.000";
         if (winRateStr.startsWith("0")) {
-             winRateStr = winRateStr.substring(1); 
+          winRateStr = winRateStr.substring(1);
         }
 
         var won = team.totalCategoriesWon;
         var tied = team.totalCategoriesTied;
         var played = team.totalCategoriesPlayed;
         var lost = played - won - tied;
-        var recordString = `${won} / ${Math.round(lost)} / ${tied}`; 
+        var recordString = `${won} / ${Math.round(lost)} / ${tied}`;
 
-        if (index === 0) { rowClass = 'bg-success-dark'; }
-        else if (index === 1) { rowClass = 'bg-success-medium'; }
-        else if (index === 2) { rowClass = 'bg-success-light'; }
-        else if (index === teams.length - 1) { rowClass = 'bg-danger-dark'; }
-        else if (index === teams.length - 2) { rowClass = 'bg-danger-medium'; }
-        else if (index === teams.length - 3) { rowClass = 'bg-danger-light'; }
+        if (index === 0) { rowClass = 'bg-emerald-500/30 text-emerald-200'; }
+        else if (index === 1) { rowClass = 'bg-emerald-500/20 text-emerald-200'; }
+        else if (index === 2) { rowClass = 'bg-emerald-500/10 text-emerald-200'; }
+        else if (index === teams.length - 1) { rowClass = 'bg-red-500/30 text-red-200'; }
+        else if (index === teams.length - 2) { rowClass = 'bg-red-500/20 text-red-200'; }
+        else if (index === teams.length - 3) { rowClass = 'bg-red-500/10 text-red-200'; }
+        else { rowClass = 'transition-colors hover:bg-slate-800/50 text-slate-300'; }
 
         var row =
           `<tr class="${rowClass}">
-            <td>${index + 1}</td>
-            <td>${team.name}</td>
-            <td><b>${winRateStr}</b></td>
-            <td>${recordString}</td>
+            <td class="px-4 py-3">${index + 1}</td>
+            <td class="px-4 py-3 font-medium text-white">${team.name}</td>
+            <td class="px-4 py-3 font-bold">${winRateStr}</td>
+            <td class="px-4 py-3">${recordString}</td>
           </tr>`;
-        
+
         $tableBody.append(row);
       });
 
@@ -86,7 +82,7 @@ $(document).ready(function () {
         "paging": false,
         "info": false,
         "autoWidth": false,
-        "order": [[ 0, "asc" ]] 
+        "order": [[0, "asc"]]
       });
     });
   });
