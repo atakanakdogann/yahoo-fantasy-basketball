@@ -74,7 +74,9 @@ public class YahooTradeAnalyzerServiceImpl implements TradeAnalyzerService {
         double totalWinsBefore = 0.0;
         double totalWinsAfter = 0.0;
 
-        for (int week = startWeek; week <= currentWeek; week++) {
+        // Analysis runs from Start Week up to (but excluding) Current Week
+        // (Backtesting)
+        for (int week = startWeek; week < currentWeek; week++) {
             List<TeamStatCategory> allTeamsStatsWeekX = statService.getAllTeamsStats(leagueId, String.valueOf(week),
                     relevantCategories);
             if (allTeamsStatsWeekX.isEmpty())
@@ -111,7 +113,7 @@ public class YahooTradeAnalyzerServiceImpl implements TradeAnalyzerService {
         }
 
         TradeAnalysisResultDTO result = new TradeAnalysisResultDTO();
-        int totalWeeksAnalyzed = (currentWeek - startWeek) + 1;
+        int totalWeeksAnalyzed = (currentWeek - startWeek);
         int totalOpponents = leagueInfo.getTeams().size() - 1;
         int totalCategories = relevantCategories.size();
         double totalMatchupsPlayed = totalWeeksAnalyzed * totalOpponents * totalCategories;
