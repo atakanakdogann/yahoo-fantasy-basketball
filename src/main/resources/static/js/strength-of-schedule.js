@@ -51,6 +51,9 @@ $(document).ready(function () {
         return;
       }
 
+      var lastScoreStr = "";
+      var currentDisplayRank = 0;
+
       $.each(teams, function (index, team) {
 
         var rowClass = '';
@@ -64,8 +67,14 @@ $(document).ready(function () {
             scoreDisplay = scoreDisplay.substring(1);
           }
         } else {
-          scoreDisplay = "N/A (Playoff/Season End)";
+          scoreDisplay = "N/A";
         }
+
+        // Tie Handling logic
+        if (index === 0 || scoreDisplay !== lastScoreStr) {
+          currentDisplayRank = index + 1;
+        }
+        lastScoreStr = scoreDisplay;
 
         if (sosScore > 0) {
           if (index === 0) { rowClass = 'bg-red-500/30 text-red-200'; }
@@ -81,7 +90,7 @@ $(document).ready(function () {
 
         var row =
           `<tr class="${rowClass}">
-            <td class="px-4 py-3">${index + 1}</td>
+            <td class="px-4 py-3">${currentDisplayRank}</td>
             <td class="px-4 py-3 font-medium text-white">${team.name}</td>
             <td class="px-4 py-3 font-bold">${scoreDisplay}</td>
           </tr>`;
@@ -94,7 +103,7 @@ $(document).ready(function () {
         "paging": false,
         "info": false,
         "autoWidth": false,
-        "order": [[2, "desc"]]
+        "order": [[0, "asc"]] // Sort by Rank to keep tied teams together in standard order
       });
     });
   });

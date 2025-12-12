@@ -43,6 +43,9 @@ $(document).ready(function () {
         return;
       }
 
+      var lastWinRateStr = "";
+      var currentDisplayRank = 0;
+
       $.each(teams, function (index, team) {
 
         var rowClass = '';
@@ -52,6 +55,12 @@ $(document).ready(function () {
         if (winRateStr.startsWith("0")) {
           winRateStr = winRateStr.substring(1);
         }
+
+        // Tie Handling
+        if (index === 0 || winRateStr !== lastWinRateStr) {
+          currentDisplayRank = index + 1;
+        }
+        lastWinRateStr = winRateStr;
 
         var won = team.totalCategoriesWon;
         var tied = team.totalCategoriesTied;
@@ -69,7 +78,7 @@ $(document).ready(function () {
 
         var row =
           `<tr class="${rowClass}">
-            <td class="px-4 py-3">${index + 1}</td>
+            <td class="px-4 py-3">${currentDisplayRank}</td>
             <td class="px-4 py-3 font-medium text-white">${team.name}</td>
             <td class="px-4 py-3 font-bold">${winRateStr}</td>
             <td class="px-4 py-3">${recordString}</td>

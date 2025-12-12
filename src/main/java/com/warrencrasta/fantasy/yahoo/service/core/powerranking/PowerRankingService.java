@@ -31,23 +31,26 @@ public class PowerRankingService {
     LeagueInfoDTO leagueInfo = leagueService.getLeagueInfo(leagueId);
 
     int currentWeek = Integer.parseInt(leagueInfo.getWeeks().get(0).replace("Week ", ""));
-    int startWeek = Integer.parseInt(leagueInfo.getWeeks()
+    int actualStartWeek = Integer.parseInt(leagueInfo.getWeeks()
         .get(leagueInfo.getWeeks().size() - 1).replace("Week ", ""));
+
+    // Limit to the last 6 weeks as requested
+    int startWeek = Math.max(actualStartWeek, currentWeek - 5);
 
     Map<String, YahooTeam> rankingsMap = leagueInfo.getTeams().stream()
         .collect(Collectors.toMap(YahooTeam::getId, team -> team));
 
     for (int week = startWeek; week <= currentWeek; week++) {
-      List<TeamStatCategory> allTeamsStats = 
-          statService.getAllTeamsStats(leagueId, String.valueOf(week), relevantCategories);
+      List<TeamStatCategory> allTeamsStats = statService.getAllTeamsStats(leagueId, String.valueOf(week),
+          relevantCategories);
 
-      if (allTeamsStats.isEmpty()) { 
+      if (allTeamsStats.isEmpty()) {
         continue;
       }
 
       for (TeamStatCategory teamAstats : allTeamsStats) {
         YahooTeam prTeamA = rankingsMap.get(teamAstats.getId());
-        if (prTeamA == null) { 
+        if (prTeamA == null) {
           continue;
         }
 
@@ -56,7 +59,7 @@ public class PowerRankingService {
 
         for (TeamStatCategory teamBstats : allTeamsStats) {
           if (teamAstats.getId().equals(teamBstats.getId())) {
-            continue; 
+            continue;
           }
           double[] results = compareTwoTeams(teamAstats, teamBstats, relevantCategories);
           weeklyWins += results[0];
@@ -70,10 +73,10 @@ public class PowerRankingService {
     }
 
     List<YahooTeam> finalRankings = new ArrayList<>(rankingsMap.values());
-    
+
     for (YahooTeam team : finalRankings) {
       team.calculateFinalWinRate();
-        
+
     }
 
     finalRankings.sort(Comparator.comparingDouble(YahooTeam::getWinRate).reversed());
@@ -81,7 +84,7 @@ public class PowerRankingService {
     return finalRankings;
   }
 
-  private double[] compareTwoTeams(TeamStatCategory teamA, 
+  private double[] compareTwoTeams(TeamStatCategory teamA,
       TeamStatCategory teamB, List<StatCategory> categories) {
     double wins = 0;
     double ties = 0;
@@ -100,6 +103,6 @@ public class PowerRankingService {
         wins++;
       }
     }
-    return new double[]{wins, ties};
+    return new double[] { wins, ties };
   }
 }

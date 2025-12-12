@@ -141,6 +141,23 @@ $(document).ready(function () {
     $playersToSend.on('change', validateTrade);
     $playersToReceive.on('change', validateTrade);
 
+    // --- ENABLE CLICK-TO-TOGGLE (NO CTRL KEY) ---
+    // Allows selecting multiple players just by clicking, without holding Ctrl/Meta
+    function enableNoCtrlSelect($select) {
+        $select.on('mousedown', 'option', function (e) {
+            e.preventDefault();
+            var $option = $(this);
+            // Toggle selection state
+            $option.prop('selected', !$option.prop('selected'));
+            // Manually trigger change to update validation
+            $select.trigger('change');
+            return false;
+        });
+    }
+
+    enableNoCtrlSelect($playersToSend);
+    enableNoCtrlSelect($playersToReceive);
+
     // --- ADD FILLER PLAYER UTILITY ---
     function addFillerToDropdown($targetDropdown) {
         var selectedPlayerKey = $fillerSelect.val();
@@ -283,7 +300,7 @@ $(document).ready(function () {
             $errorMessage.text('Please select players to trade.').removeClass('hidden');
             $analyzeBtn.prop('disabled', true);
         } else if (teamAPlayers.length !== teamBPlayers.length) {
-            $errorMessage.text('Player counts must be equal. Use "Add Filler Player" to balance.').removeClass('hidden');
+            $errorMessage.text('Player counts must be equal. If you need, use "Add Filler Player" to balance.').removeClass('hidden');
             $analyzeBtn.prop('disabled', true);
         } else {
             $errorMessage.addClass('hidden');
@@ -301,12 +318,26 @@ $(document).ready(function () {
         var summaryText = '';
 
         // Tailwind Colors
-        if (winRateChange > 0.001) {
-            summaryText = `<h3 class="text-xl font-bold text-emerald-400">Trade Won (Win Rate: ${result.winRateBefore.toFixed(3)} ➔ ${result.winRateAfter.toFixed(3)})</h3>`;
-        } else if (winRateChange < -0.001) {
-            summaryText = `<h3 class="text-xl font-bold text-red-400">Trade Lost (Win Rate: ${result.winRateBefore.toFixed(3)} ➔ ${result.winRateAfter.toFixed(3)})</h3>`;
+        // Custom truncation to 3 decimal places (no rounding)
+        function formatRate(num) {
+            return (Math.floor(num * 1000) / 1000).toFixed(3);
+        }
+
+        // User requested .015 margin (1.5%).
+        // Values are decimals (0.452), so threshold is 0.015.
+        if (Math.abs(winRateChange) <= 0.015) {
+            let statusText = "Fair Trade";
+            if (winRateChange > 0.0001) { // Use small epsilon for float comparison
+                statusText = "Fair Trade (Minor Win)";
+            } else if (winRateChange < -0.0001) {
+                statusText = "Fair Trade (Minor Loss)";
+            }
+
+            summaryText = `<h3 class="text-xl font-bold text-white">${statusText} </h3>`;
+        } else if (winRateChange > 0.015) {
+            summaryText = `<h3 class="text-xl font-bold text-emerald-400">Trade Won (Win Rate: ${formatRate(result.winRateBefore)} ➔ ${formatRate(result.winRateAfter)})</h3>`;
         } else {
-            summaryText = `<h3 class="text-xl font-bold text-slate-400">Neutral Trade (Win Rate: ${result.winRateBefore.toFixed(3)} ➔ ${result.winRateAfter.toFixed(3)})</h3>`;
+            summaryText = `<h3 class="text-xl font-bold text-red-400">Trade Lost (Win Rate: ${formatRate(result.winRateBefore)} ➔ ${formatRate(result.winRateAfter)})</h3>`;
         }
         $('#results-summary').html(summaryText);
 
@@ -358,7 +389,8 @@ $(document).ready(function () {
         // Access nested stats list: player.playerStats -> stats (Array) -> wrapper -> stat
         var statsList = (player.playerStats && player.playerStats.stats) ? player.playerStats.stats : [];
 
-        var gp = getStatVal(statsList, ["0", "GP"]); // 0 is usually GP
+        var statsList = (player.playerStats && player.playerStats.stats) ? player.playerStats.stats : [];
+        // GP column removed as requested
         var fg = getStatVal(statsList, ["5", "FG%"]);
         var ft = getStatVal(statsList, ["8", "FT%"]);
         var p3 = getStatVal(statsList, ["10", "3PTM", "3PT"]);
@@ -372,7 +404,6 @@ $(document).ready(function () {
         var row = `
             <tr class="hover:bg-slate-700/30 transition-colors">
                 <td class="px-3 py-2 text-white font-medium truncate" title="${name}">${name}</td>
-                <td class="px-2 py-2">${gp}</td>
                 <td class="px-2 py-2 text-indigo-300">${fg}</td>
                 <td class="px-2 py-2 text-indigo-300">${ft}</td>
                 <td class="px-2 py-2">${p3}</td>

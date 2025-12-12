@@ -11,11 +11,11 @@
         <span>Menu</span>
       </h6>
       <nav class="space-y-1">
-        <a th:href="@{/trade-analyzer}"
-          th:classappend="${#httpServletRequest.getRequestURI().contains('trade-analyzer')} ? 'bg-indigo-500/10 text-indigo-400' : 'text-slate-400 hover:text-white hover:bg-slate-800'"
+        <a th:href="@{/matchup-comparisons}"
+          th:classappend="${#httpServletRequest.getRequestURI().contains('matchup-comparisons')} ? 'bg-indigo-500/10 text-indigo-400' : 'text-slate-400 hover:text-white hover:bg-slate-800'"
           class="flex items-center gap-3 px-3 py-2 rounded-lg transition-colors font-medium">
-          <span>📊</span>
-          <span>Trade Analyzer</span>
+          <span>🆚</span>
+          <span>Matchup Comparisons</span>
         </a>
         <a th:href="@{/live-standings}"
           th:classappend="${#httpServletRequest.getRequestURI().contains('live-standings')} ? 'bg-indigo-500/10 text-indigo-400' : 'text-slate-400 hover:text-white hover:bg-slate-800'"
@@ -35,11 +35,11 @@
           <span>📅</span>
           <span>Schedule Strength</span>
         </a>
-        <a th:href="@{/matchup-comparisons}"
-          th:classappend="${#httpServletRequest.getRequestURI().contains('matchup-comparisons')} ? 'bg-indigo-500/10 text-indigo-400' : 'text-slate-400 hover:text-white hover:bg-slate-800'"
+        <a th:href="@{/trade-analyzer}"
+          th:classappend="${#httpServletRequest.getRequestURI().contains('trade-analyzer')} ? 'bg-indigo-500/10 text-indigo-400' : 'text-slate-400 hover:text-white hover:bg-slate-800'"
           class="flex items-center gap-3 px-3 py-2 rounded-lg transition-colors font-medium">
-          <span>🆚</span>
-          <span>Matchup Comparisons</span>
+          <span>📊</span>
+          <span>Trade Analyzer</span>
         </a>
       </nav>
     </div>

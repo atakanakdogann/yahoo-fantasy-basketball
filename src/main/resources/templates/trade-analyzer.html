@@ -55,7 +55,6 @@
                   multiple disabled>
                   <!-- Filled by JS -->
                 </select>
-                <p class="text-xs text-slate-500 italic">* Hold Ctrl/Cmd to select multiple</p>
               </div>
             </div>
 
@@ -172,7 +171,7 @@
                 <thead class="bg-slate-900/80">
                   <tr>
                     <th class="px-3 py-2 font-semibold text-slate-300">Player</th>
-                    <th class="px-2 py-2 font-semibold text-slate-300">GP</th>
+
                     <th class="px-2 py-2 font-semibold text-slate-300">FG%</th>
                     <th class="px-2 py-2 font-semibold text-slate-300">FT%</th>
                     <th class="px-2 py-2 font-semibold text-slate-300">3PT</th>
@@ -201,7 +200,7 @@
                 <thead class="bg-slate-900/80">
                   <tr>
                     <th class="px-3 py-2 font-semibold text-slate-300">Player</th>
-                    <th class="px-2 py-2 font-semibold text-slate-300">GP</th>
+
                     <th class="px-2 py-2 font-semibold text-slate-300">FG%</th>
                     <th class="px-2 py-2 font-semibold text-slate-300">FT%</th>
                     <th class="px-2 py-2 font-semibold text-slate-300">3PT</th>
@@ -228,9 +227,9 @@
             <thead class="bg-slate-900/50">
               <tr>
                 <th class="px-4 py-3 font-semibold text-slate-300">Category</th>
-                <th class="px-4 py-3 font-semibold text-slate-300">Before Trade (Wins)</th>
-                <th class="px-4 py-3 font-semibold text-slate-300">After Trade (Wins)</th>
-                <th class="px-4 py-3 font-semibold text-slate-300">Impact</th>
+                <th class="px-4 py-3 font-semibold text-slate-300">Before Trade (Win %)</th>
+                <th class="px-4 py-3 font-semibold text-slate-300">After Trade (Win %)</th>
+                <th class="px-4 py-3 font-semibold text-slate-300">Impact (%)</th>
               </tr>
             </thead>
             <tbody class="divide-y divide-slate-700 bg-transparent text-slate-300">
@@ -241,11 +240,12 @@
 
         <!-- Warnings -->
         <div class="mt-6 space-y-2 rounded-lg bg-slate-900/50 p-4 border border-slate-700/50">
-          <p class="text-xs text-amber-500">
-            <strong class="font-bold">Limitation 1 (GP=0):</strong> Players with 0 games played are counted as '0'.
-          </p>
-          <p class="text-xs text-amber-500">
-            <strong class="font-bold">Limitation 2 (Active/Bench):</strong> Assumes players were always Active.
+          <p class="text-xs text-slate-400 italic">
+            <strong class="text-amber-500 font-bold not-italic">Note:</strong> These calculations rely solely on
+            historical average statistics and do not account for variables such as injuries, rotation changes, or future
+            player potential. Trade fairness is subjective; please exercise personal judgment if player statistics
+            appear
+            skewed or do not reflect current value.
           </p>
         </div>
 

@@ -2,17 +2,30 @@ package com.warrencrasta.fantasy.yahoo.mapper;
 
 import com.warrencrasta.fantasy.yahoo.domain.league.YahooLeague;
 import com.warrencrasta.fantasy.yahoo.dto.external.yahoo.LeagueWrapperDTO;
+import java.util.Collections;
 import java.util.List;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
+import java.util.stream.Collectors;
+import org.springframework.stereotype.Component;
 
-@Mapper(componentModel = "spring")
-public interface LeagueMapper {
+@Component
+public class LeagueMapper {
 
-  List<YahooLeague> leagueWrapperDTOsToYahooLeagues(List<LeagueWrapperDTO> leagueWrapperDTOs);
+  public List<YahooLeague> leagueWrapperDTOsToYahooLeagues(List<LeagueWrapperDTO> leagueWrapperDTOs) {
+    if (leagueWrapperDTOs == null) {
+      return Collections.emptyList();
+    }
+    return leagueWrapperDTOs.stream()
+        .map(this::leagueWrapperDTOtoYahooLeague)
+        .collect(Collectors.toList());
+  }
 
-  @Mapping(source = "league.name", target = "name")
-  @Mapping(source = "league.leagueKey", target = "id")
-  YahooLeague leagueWrapperDTOtoYahooLeague(LeagueWrapperDTO leagueWrapperDTO);
-
+  public YahooLeague leagueWrapperDTOtoYahooLeague(LeagueWrapperDTO leagueWrapperDTO) {
+    if (leagueWrapperDTO == null || leagueWrapperDTO.getLeague() == null) {
+      return null;
+    }
+    // Constructor requires: (id, name)
+    String id = leagueWrapperDTO.getLeague().getLeagueKey();
+    String name = leagueWrapperDTO.getLeague().getName();
+    return new YahooLeague(id, name);
+  }
 }

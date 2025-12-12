@@ -2,17 +2,30 @@ package com.warrencrasta.fantasy.yahoo.mapper;
 
 import com.warrencrasta.fantasy.yahoo.domain.season.YahooSeason;
 import com.warrencrasta.fantasy.yahoo.dto.external.yahoo.GameWrapperDTO;
+import java.util.Collections;
 import java.util.List;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
+import java.util.stream.Collectors;
+import org.springframework.stereotype.Component;
 
-@Mapper(componentModel = "spring")
-public interface SeasonMapper {
+@Component
+public class SeasonMapper {
 
-  List<YahooSeason> gameWrapperDTOsToYahooSeasons(List<GameWrapperDTO> gameWrapperDTOs);
+  public List<YahooSeason> gameWrapperDTOsToYahooSeasons(List<GameWrapperDTO> gameWrapperDTOs) {
+    if (gameWrapperDTOs == null) {
+      return Collections.emptyList();
+    }
+    return gameWrapperDTOs.stream()
+        .map(this::gameWrapperDTOtoYahooSeason)
+        .collect(Collectors.toList());
+  }
 
-  @Mapping(source = "game.gameId", target = "id")
-  @Mapping(source = "game.season", target = "year")
-  YahooSeason gameWrapperDTOtoYahooSeason(GameWrapperDTO gameWrapperDTO);
-
+  public YahooSeason gameWrapperDTOtoYahooSeason(GameWrapperDTO gameWrapperDTO) {
+    if (gameWrapperDTO == null || gameWrapperDTO.getGame() == null) {
+      return null;
+    }
+    // Constructor requires: (id, year)
+    String id = gameWrapperDTO.getGame().getGameId();
+    String year = gameWrapperDTO.getGame().getSeason();
+    return new YahooSeason(id, year);
+  }
 }

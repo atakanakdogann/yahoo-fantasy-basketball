@@ -75,8 +75,9 @@ public class YahooTradeAnalyzerServiceImpl implements TradeAnalyzerService {
         double totalWinsAfter = 0.0;
 
         // Analysis runs from Start Week up to (but excluding) Current Week
-        // (Backtesting)
-        for (int week = startWeek; week < currentWeek; week++) {
+        // (Backtesting) - Synced with Power Rankings (Last 6 Weeks)
+        int backtestStartWeek = Math.max(startWeek, currentWeek - 6);
+        for (int week = backtestStartWeek; week < currentWeek; week++) {
             List<TeamStatCategory> allTeamsStatsWeekX = statService.getAllTeamsStats(leagueId, String.valueOf(week),
                     relevantCategories);
             if (allTeamsStatsWeekX.isEmpty())
@@ -118,12 +119,25 @@ public class YahooTradeAnalyzerServiceImpl implements TradeAnalyzerService {
         int totalCategories = relevantCategories.size();
         double totalMatchupsPlayed = totalWeeksAnalyzed * totalOpponents * totalCategories;
 
+        double totalCategoryOpponents = totalWeeksAnalyzed * totalOpponents;
+
         Map<String, Double> unsortedChanges = new HashMap<>();
         for (StatCategory cat : relevantCategories) {
             String catName = cat.getName();
-            double before = categoryTotalsBefore.getOrDefault(catName, 0.0);
-            double after = categoryTotalsAfter.getOrDefault(catName, 0.0);
-            unsortedChanges.put(catName, after - before);
+            double winsBefore = categoryTotalsBefore.getOrDefault(catName, 0.0);
+            double winsAfter = categoryTotalsAfter.getOrDefault(catName, 0.0);
+
+            if (totalCategoryOpponents > 0) {
+                double pctBefore = (winsBefore / totalCategoryOpponents) * 100.0;
+                double pctAfter = (winsAfter / totalCategoryOpponents) * 100.0;
+
+                categoryTotalsBefore.put(catName, pctBefore);
+                categoryTotalsAfter.put(catName, pctAfter);
+
+                unsortedChanges.put(catName, pctAfter - pctBefore);
+            } else {
+                unsortedChanges.put(catName, 0.0);
+            }
         }
 
         result.setCategoryChanges(sortByCategoryOrder(unsortedChanges));

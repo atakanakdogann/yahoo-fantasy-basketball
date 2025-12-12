@@ -35,6 +35,10 @@ public class YahooUserServiceImpl implements UserService {
 
     FantasyContentDTO fantasyContent = yahooClient.getFantasyContent(resourceUriFragment);
 
+    if (fantasyContent == null || fantasyContent.getUsers() == null || fantasyContent.getUsers().isEmpty()) {
+      throw new RuntimeException("Yahoo Authentication Failed (Token Expired). Please try logging in again.");
+    }
+
     List<GameWrapperDTO> gameWrapperDTOs = fantasyContent.getUsers().get(0).getUser().getGames();
 
     List<YahooSeason> seasons = seasonMapper.gameWrapperDTOsToYahooSeasons(gameWrapperDTOs);
@@ -50,14 +54,16 @@ public class YahooUserServiceImpl implements UserService {
     uriVariables.put("game_key", seasonId);
     var resourceUriFragment = "/users;use_login=1/games;game_keys={game_key}/leagues";
 
-    FantasyContentDTO fantasyContent =
-        yahooClient.getFantasyContent(uriVariables, resourceUriFragment);
+    FantasyContentDTO fantasyContent = yahooClient.getFantasyContent(uriVariables, resourceUriFragment);
 
-    List<LeagueWrapperDTO> leagueWrapperDTOs =
-        fantasyContent.getUsers().get(0).getUser().getGames().get(0).getGame().getLeagues();
+    if (fantasyContent == null || fantasyContent.getUsers() == null || fantasyContent.getUsers().isEmpty()) {
+      throw new RuntimeException("Yahoo Authentication Failed (Token Expired). Please try logging in again.");
+    }
 
-    List<YahooLeague> yahooLeagues =
-        leagueMapper.leagueWrapperDTOsToYahooLeagues(leagueWrapperDTOs);
+    List<LeagueWrapperDTO> leagueWrapperDTOs = fantasyContent.getUsers().get(0).getUser().getGames().get(0).getGame()
+        .getLeagues();
+
+    List<YahooLeague> yahooLeagues = leagueMapper.leagueWrapperDTOsToYahooLeagues(leagueWrapperDTOs);
     yahooLeagues.sort(Comparator.comparing(YahooLeague::getName));
 
     return yahooLeagues;

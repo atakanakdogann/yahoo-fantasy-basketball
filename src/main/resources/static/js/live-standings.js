@@ -41,6 +41,9 @@ $(document).ready(function () {
         return;
       }
 
+      var lastWinRateStr = "";
+      var currentDisplayRank = 0;
+
       $.each(teams, function (index, team) {
 
         var rowClass = '';
@@ -51,10 +54,17 @@ $(document).ready(function () {
         var lost = played - won - tied;
         var recordString = `${won} / ${Math.round(lost)} / ${tied}`;
 
-        var winRateStr = team.winRate.toFixed(3);
+        var winRateStr = team.winRate ? team.winRate.toFixed(3) : "0.000";
         if (winRateStr.startsWith("0")) {
           winRateStr = winRateStr.substring(1);
         }
+
+        // Tie Handling: If Win Rate string matches previous, use same rank.
+        // Otherwise use actual position (index + 1).
+        if (index === 0 || winRateStr !== lastWinRateStr) {
+          currentDisplayRank = index + 1;
+        }
+        lastWinRateStr = winRateStr;
 
         if (index === 0) { rowClass = 'bg-emerald-500/30 text-emerald-200'; }
         else if (index === 1) { rowClass = 'bg-emerald-500/20 text-emerald-200'; }
@@ -66,7 +76,7 @@ $(document).ready(function () {
 
         var row =
           `<tr class="${rowClass}">
-            <td class="px-4 py-3">${index + 1}</td>
+            <td class="px-4 py-3">${currentDisplayRank}</td>
             <td class="px-4 py-3 font-medium text-white">
               ${team.name}
             </td>
