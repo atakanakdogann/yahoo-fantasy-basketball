@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<body>
+
+    <div th:fragment="filters" id="global-filters"
+        class="mb-6 bg-slate-800/50 backdrop-blur rounded-xl border border-slate-700 p-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+
+            <!-- Season Select -->
+            <div class="space-y-1">
+                <label for="season"
+                    class="block text-xs font-semibold text-slate-400 uppercase tracking-wider">Season</label>
+                <select name="season" id="season" required="required"
+                    class="block w-full rounded-lg border border-slate-700 bg-slate-900 text-slate-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm px-3 py-2">
+                    <option disabled="disabled" selected="selected">Select a Season</option>
+                    <option th:each="season : ${seasons}" th:value="${season.id}" th:text="${season.year}"></option>
+                </select>
+            </div>
+
+            <!-- League Select -->
+            <div class="space-y-1">
+                <label for="league"
+                    class="block text-xs font-semibold text-slate-400 uppercase tracking-wider">League</label>
+                <select name="league" id="league" required="required"
+                    class="block w-full rounded-lg border border-slate-700 bg-slate-900 text-slate-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm px-3 py-2">
+                    <option disabled="disabled" selected="selected">Select a League</option>
+                </select>
+            </div>
+
+            <!-- Conditional Filters for specific pages -->
+            <th:block th:if="${#httpServletRequest.getRequestURI().contains('matchup-comparisons')}">
+                <!-- Week Select -->
+                <div class="space-y-1">
+                    <label for="week"
+                        class="block text-xs font-semibold text-slate-400 uppercase tracking-wider">Week</label>
+                    <select name="week" id="week" required="required"
+                        class="block w-full rounded-lg border border-slate-700 bg-slate-900 text-slate-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm px-3 py-2">
+                        <option disabled="disabled" selected="selected">Select a Week</option>
+                    </select>
+                </div>
+
+                <!-- Team Select -->
+                <div class="space-y-1">
+                    <label for="team"
+                        class="block text-xs font-semibold text-slate-400 uppercase tracking-wider">Team</label>
+                    <select name="team" id="team" required="required"
+                        class="block w-full rounded-lg border border-slate-700 bg-slate-900 text-slate-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm px-3 py-2">
+                        <option disabled="disabled" selected="selected">Select a Team</option>
+                    </select>
+                </div>
+            </th:block>
+
+        </div>
+    </div>
+
+</body>
+
+</html>

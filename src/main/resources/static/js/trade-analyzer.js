@@ -231,6 +231,7 @@ $(document).ready(function () {
                 // HIDE Selection, SHOW Results
                 $tradeSelectionContainer.addClass('hidden');
                 $resultsCard.removeClass('hidden');
+                $('#global-filters').addClass('hidden');
             },
             error: function (xhr, status, error) {
                 console.error("Analysis Error:", xhr.responseText);
@@ -246,6 +247,7 @@ $(document).ready(function () {
         // Reset View
         $resultsCard.addClass('hidden');
         $tradeSelectionContainer.removeClass('hidden');
+        $('#global-filters').removeClass('hidden');
 
         // Clear Selected Players but keep teams
         $playersToSend.val([]);

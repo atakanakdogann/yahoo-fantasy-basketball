@@ -156,6 +156,11 @@
 
       <!-- Content Scroll Area -->
       <main class="flex-1 overflow-y-auto bg-slate-900 p-4 md:p-8">
+        <!-- Filter Options (Persistent) -->
+        <div class="mx-auto max-w-7xl animate-fade-in-up mb-6">
+          <div th:replace="~{layout/filters :: filters}"></div>
+        </div>
+
         <div layout:fragment="content" class="mx-auto max-w-7xl animate-fade-in-up">
           <!-- Content goes here -->
         </div>
