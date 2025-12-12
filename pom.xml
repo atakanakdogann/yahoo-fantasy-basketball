@@ -9,7 +9,7 @@
     <version>2.6.0</version>
     <relativePath/> <!-- lookup parent from repository -->
   </parent>
-  <groupId>com.warrencrasta</groupId>
+  <groupId>com.fantasytoys</groupId>
   <artifactId>yahoo-fantasy-basketball</artifactId>
   <version>1.0.0</version>
   <name>yahoo-fantasy-basketball</name>
@@ -21,8 +21,8 @@
     <okhttp3-version>4.9.0</okhttp3-version>
     <org.mapstruct.version>1.4.1.Final</org.mapstruct.version>
     <org.projectlombok.version>1.18.30</org.projectlombok.version>
-    <sonar.projectKey>wcrasta_yahoo-fantasy-basketball</sonar.projectKey>
-    <sonar.organization>wcrasta</sonar.organization>
+    <sonar.projectKey>fantasytoys_yahoo-fantasy-basketball</sonar.projectKey>
+    <sonar.organization>fantasytoys</sonar.organization>
     <sonar.host.url>https://sonarcloud.io</sonar.host.url>
     <sonar.sources>src/main/java,src/main/resources</sonar.sources>
     <sonar.coverage.exclusions>**/js/**, **/YahooFantasyApplication.java,
@@ -31,10 +31,10 @@
   </properties>
 
   <scm>
-    <connection>scm:git:git@github.com:wcrasta/yahoo-fantasy-basketball.git</connection>
-    <developerConnection>scm:git:git@github.com:wcrasta/yahoo-fantasy-basketball.git
+    <connection>scm:git:git@github.com:fantasytoys/yahoo-fantasy-basketball.git</connection>
+    <developerConnection>scm:git:git@github.com:fantasytoys/yahoo-fantasy-basketball.git
     </developerConnection>
-    <url>https://github.com/wcrasta/yahoo-fantasy-basketball</url>
+    <url>https://github.com/fantasytoys/yahoo-fantasy-basketball</url>
     <tag>@{project.version}</tag>
   </scm>
 
