@@ -1,7 +1,7 @@
-package com.warrencrasta.fantasy.yahoo.domain.stat;
+package com.fantasytoys.fantasy.yahoo.domain.stat;
 
-import com.warrencrasta.fantasy.yahoo.domain.team.Team;
-import com.warrencrasta.fantasy.yahoo.domain.team.YahooTeam;
+import com.fantasytoys.fantasy.yahoo.domain.team.Team;
+import com.fantasytoys.fantasy.yahoo.domain.team.YahooTeam;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.Data;

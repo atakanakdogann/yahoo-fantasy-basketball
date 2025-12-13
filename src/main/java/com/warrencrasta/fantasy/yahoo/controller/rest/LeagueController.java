@@ -1,18 +1,18 @@
-package com.warrencrasta.fantasy.yahoo.controller.rest;
+package com.fantasytoys.fantasy.yahoo.controller.rest;
 
-import com.warrencrasta.fantasy.yahoo.domain.team.YahooTeam;
-import com.warrencrasta.fantasy.yahoo.dto.external.yahoo.PlayerDTO;
-import com.warrencrasta.fantasy.yahoo.dto.internal.LeagueInfoDTO;
-import com.warrencrasta.fantasy.yahoo.dto.internal.MatchupDTO;
-import com.warrencrasta.fantasy.yahoo.dto.internal.TradeAnalysisRequestDTO;
-import com.warrencrasta.fantasy.yahoo.dto.internal.TradeAnalysisResultDTO;
-import com.warrencrasta.fantasy.yahoo.service.core.league.LeagueService;
-import com.warrencrasta.fantasy.yahoo.service.core.livestandings.LiveStandingsService;
-import com.warrencrasta.fantasy.yahoo.service.core.player.PlayerService;
-import com.warrencrasta.fantasy.yahoo.service.core.powerranking.PowerRankingService;
-import com.warrencrasta.fantasy.yahoo.service.core.roster.RosterService;
-import com.warrencrasta.fantasy.yahoo.service.core.scoreboard.ScoreboardService;
-import com.warrencrasta.fantasy.yahoo.service.core.trade.TradeAnalyzerService;
+import com.fantasytoys.fantasy.yahoo.domain.team.YahooTeam;
+import com.fantasytoys.fantasy.yahoo.dto.external.yahoo.PlayerDTO;
+import com.fantasytoys.fantasy.yahoo.dto.internal.LeagueInfoDTO;
+import com.fantasytoys.fantasy.yahoo.dto.internal.MatchupDTO;
+import com.fantasytoys.fantasy.yahoo.dto.internal.TradeAnalysisRequestDTO;
+import com.fantasytoys.fantasy.yahoo.dto.internal.TradeAnalysisResultDTO;
+import com.fantasytoys.fantasy.yahoo.service.core.league.LeagueService;
+import com.fantasytoys.fantasy.yahoo.service.core.livestandings.LiveStandingsService;
+import com.fantasytoys.fantasy.yahoo.service.core.player.PlayerService;
+import com.fantasytoys.fantasy.yahoo.service.core.powerranking.PowerRankingService;
+import com.fantasytoys.fantasy.yahoo.service.core.roster.RosterService;
+import com.fantasytoys.fantasy.yahoo.service.core.scoreboard.ScoreboardService;
+import com.fantasytoys.fantasy.yahoo.service.core.trade.TradeAnalyzerService;
 
 import java.util.List;
 

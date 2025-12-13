@@ -1,4 +1,4 @@
-package com.warrencrasta.fantasy.yahoo.controller.view;
+package com.fantasytoys.fantasy.yahoo.controller.view;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
@@ -19,8 +19,7 @@ class UnauthenticatedControllerTest {
     InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
     viewResolver.setPrefix("/templates");
     viewResolver.setSuffix(".html");
-    this.mockMvc =
-        standaloneSetup(new UnauthenticatedController()).setViewResolvers(viewResolver).build();
+    this.mockMvc = standaloneSetup(new UnauthenticatedController()).setViewResolvers(viewResolver).build();
   }
 
   @Test

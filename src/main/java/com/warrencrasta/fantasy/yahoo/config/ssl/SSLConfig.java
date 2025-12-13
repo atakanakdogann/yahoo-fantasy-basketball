@@ -1,4 +1,4 @@
-package com.warrencrasta.fantasy.yahoo.config.ssl;
+package com.fantasytoys.fantasy.yahoo.config.ssl;
 
 import org.apache.catalina.Context;
 import org.apache.catalina.connector.Connector;

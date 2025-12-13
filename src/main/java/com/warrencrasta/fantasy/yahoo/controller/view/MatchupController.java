@@ -1,7 +1,7 @@
-package com.warrencrasta.fantasy.yahoo.controller.view;
+package com.fantasytoys.fantasy.yahoo.controller.view;
 
-import com.warrencrasta.fantasy.yahoo.domain.season.YahooSeason;
-import com.warrencrasta.fantasy.yahoo.service.core.user.UserService;
+import com.fantasytoys.fantasy.yahoo.domain.season.YahooSeason;
+import com.fantasytoys.fantasy.yahoo.service.core.user.UserService;
 import java.util.List;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

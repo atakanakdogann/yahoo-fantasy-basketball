@@ -1,7 +1,7 @@
-package com.warrencrasta.fantasy.yahoo.controller.rest;
+package com.fantasytoys.fantasy.yahoo.controller.rest;
 
-import com.warrencrasta.fantasy.yahoo.domain.league.League;
-import com.warrencrasta.fantasy.yahoo.service.core.user.UserService;
+import com.fantasytoys.fantasy.yahoo.domain.league.League;
+import com.fantasytoys.fantasy.yahoo.service.core.user.UserService;
 import java.util.List;
 import javax.validation.constraints.NotBlank;
 import org.springframework.validation.annotation.Validated;

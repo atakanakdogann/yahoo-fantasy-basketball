@@ -1,4 +1,4 @@
-package com.warrencrasta.fantasy.yahoo.domain.stat;
+package com.fantasytoys.fantasy.yahoo.domain.stat;
 
 import lombok.Data;
 import lombok.NoArgsConstructor; // >> 1. BU IMPORT'U EKLEYİN

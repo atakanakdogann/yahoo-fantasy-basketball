@@ -1,11 +1,11 @@
-package com.warrencrasta.fantasy.yahoo.service.client;
+package com.fantasytoys.fantasy.yahoo.service.client;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock; // >> Mockito'yu ekledik
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.warrencrasta.fantasy.yahoo.dto.external.yahoo.FantasyContentDTO;
-import com.warrencrasta.fantasy.yahoo.dto.external.yahoo.GameWrapperDTO;
+import com.fantasytoys.fantasy.yahoo.dto.external.yahoo.FantasyContentDTO;
+import com.fantasytoys.fantasy.yahoo.dto.external.yahoo.GameWrapperDTO;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -38,14 +38,15 @@ class YahooClientTest {
 
   @BeforeEach
   void initialize() {
-    // OAuth2 yöneticisini 'mock'luyoruz (taklit ediyoruz), çünkü testte login'e ihtiyacımız yok
+    // OAuth2 yöneticisini 'mock'luyoruz (taklit ediyoruz), çünkü testte login'e
+    // ihtiyacımız yok
     OAuth2AuthorizedClientManager mockAuthManager = mock(OAuth2AuthorizedClientManager.class);
 
     this.yahooClient = new YahooClient(
-        WebClient.builder(),               // 1. Parametre: Builder (Artık direkt WebClient değil)
-        mockAuthManager,                   // 2. Parametre: Mock Auth Manager
-        mockBackEnd.url("/").toString(),   // 3. Parametre: Base URL
-        new ObjectMapper()                 // 4. Parametre: Mapper
+        WebClient.builder(), // 1. Parametre: Builder (Artık direkt WebClient değil)
+        mockAuthManager, // 2. Parametre: Mock Auth Manager
+        mockBackEnd.url("/").toString(), // 3. Parametre: Base URL
+        new ObjectMapper() // 4. Parametre: Mapper
     );
   }
 
@@ -54,16 +55,14 @@ class YahooClientTest {
     String resourceUriFragment = "/users;use_login=1/games;game_codes=nba";
     String mockFantasyResponseGamesPath = "src/test/resources/yahoo/nba_games_mock.json";
 
-    MockResponse mockResponse =
-        new MockResponse()
-            .addHeader("Content-Type", "application/json; charset=utf-8")
-            .setBody(new String(Files.readAllBytes(Paths.get(mockFantasyResponseGamesPath))));
+    MockResponse mockResponse = new MockResponse()
+        .addHeader("Content-Type", "application/json; charset=utf-8")
+        .setBody(new String(Files.readAllBytes(Paths.get(mockFantasyResponseGamesPath))));
 
     mockBackEnd.enqueue(mockResponse);
 
     FantasyContentDTO fantasyContent = yahooClient.getFantasyContent(resourceUriFragment);
-    List<GameWrapperDTO> gameWrapperDTOs =
-        fantasyContent.getUsers().get(0).getUser().getGames();
+    List<GameWrapperDTO> gameWrapperDTOs = fantasyContent.getUsers().get(0).getUser().getGames();
     assertEquals(2, gameWrapperDTOs.size());
 
     RecordedRequest request = mockBackEnd.takeRequest();

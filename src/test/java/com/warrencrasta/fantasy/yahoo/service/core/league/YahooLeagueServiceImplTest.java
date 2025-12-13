@@ -1,4 +1,4 @@
-package com.warrencrasta.fantasy.yahoo.service.core.league;
+package com.fantasytoys.fantasy.yahoo.service.core.league;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.anyList;
@@ -6,13 +6,13 @@ import static org.mockito.Mockito.when;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.warrencrasta.fantasy.yahoo.domain.stat.StatCategory;
-import com.warrencrasta.fantasy.yahoo.domain.team.YahooTeam;
-import com.warrencrasta.fantasy.yahoo.dto.external.yahoo.FantasyResponseDTO;
-import com.warrencrasta.fantasy.yahoo.dto.internal.LeagueInfoDTO;
-import com.warrencrasta.fantasy.yahoo.mapper.TeamMapper;
-import com.warrencrasta.fantasy.yahoo.service.client.YahooClient;
-import com.warrencrasta.fantasy.yahoo.service.core.sos.StrengthOfScheduleService;
+import com.fantasytoys.fantasy.yahoo.domain.stat.StatCategory;
+import com.fantasytoys.fantasy.yahoo.domain.team.YahooTeam;
+import com.fantasytoys.fantasy.yahoo.dto.external.yahoo.FantasyResponseDTO;
+import com.fantasytoys.fantasy.yahoo.dto.internal.LeagueInfoDTO;
+import com.fantasytoys.fantasy.yahoo.mapper.TeamMapper;
+import com.fantasytoys.fantasy.yahoo.service.client.YahooClient;
+import com.fantasytoys.fantasy.yahoo.service.core.sos.StrengthOfScheduleService;
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
@@ -31,16 +31,19 @@ class YahooLeagueServiceImplTest {
 
   private static final String LEAGUE_ID = "395.l.37133";
   private final ObjectMapper objectMapper = new ObjectMapper();
-  @Mock private YahooClient yahooClient;
-  @Mock private TeamMapper teamMapper;
-  @Mock private StrengthOfScheduleService strengthOfScheduleService;
+  @Mock
+  private YahooClient yahooClient;
+  @Mock
+  private TeamMapper teamMapper;
+  @Mock
+  private StrengthOfScheduleService strengthOfScheduleService;
   private Map<String, String> uriVariables;
   private YahooLeagueServiceImpl yahooLeagueService;
-  
+
   @BeforeEach
   void init() {
-    yahooLeagueService = new YahooLeagueServiceImpl(yahooClient, teamMapper, 
-      strengthOfScheduleService);
+    yahooLeagueService = new YahooLeagueServiceImpl(yahooClient, teamMapper,
+        strengthOfScheduleService);
     uriVariables = new HashMap<>();
     uriVariables.put("league_key", LEAGUE_ID);
   }
@@ -48,14 +51,13 @@ class YahooLeagueServiceImplTest {
   @Test
   void testGetLeagueInfo() throws IOException {
     String yahooEndpoint = "/league/{league_key}/teams";
-    String mockFantasyResponseTeamsPath =
-        "src/test/resources/yahoo/fantasy_response_teams_mock.json";
+    String mockFantasyResponseTeamsPath = "src/test/resources/yahoo/fantasy_response_teams_mock.json";
     String mockYahooTeamsPath = "src/test/resources/yahoo/teams_mock.json";
 
-    FantasyResponseDTO response =
-        objectMapper.readValue(new File(mockFantasyResponseTeamsPath), FantasyResponseDTO.class);
-    List<YahooTeam> yahooTeams =
-        objectMapper.readValue(new File(mockYahooTeamsPath), new TypeReference<>() {});
+    FantasyResponseDTO response = objectMapper.readValue(new File(mockFantasyResponseTeamsPath),
+        FantasyResponseDTO.class);
+    List<YahooTeam> yahooTeams = objectMapper.readValue(new File(mockYahooTeamsPath), new TypeReference<>() {
+    });
 
     when(yahooClient.getFantasyContent(uriVariables, yahooEndpoint))
         .thenReturn(response.getFantasyContent());
@@ -70,18 +72,17 @@ class YahooLeagueServiceImplTest {
   @Test
   void testGetRelevantCategories() throws IOException {
     String yahooEndpoint = "/league/{league_key}/settings";
-    String mockFantasyResponseSettingsPath =
-        "src/test/resources/yahoo/fantasy_response_settings_mock.json";
+    String mockFantasyResponseSettingsPath = "src/test/resources/yahoo/fantasy_response_settings_mock.json";
 
-    FantasyResponseDTO response =
-        objectMapper.readValue(new File(mockFantasyResponseSettingsPath), FantasyResponseDTO.class);
+    FantasyResponseDTO response = objectMapper.readValue(new File(mockFantasyResponseSettingsPath),
+        FantasyResponseDTO.class);
 
     when(yahooClient.getFantasyContent(uriVariables, yahooEndpoint))
         .thenReturn(response.getFantasyContent());
 
     List<StatCategory> relevantCategories = yahooLeagueService.getRelevantCategories(LEAGUE_ID);
-    List<String> relevantCategoriesNames =
-        relevantCategories.stream().map(StatCategory::getName).collect(Collectors.toList());
+    List<String> relevantCategoriesNames = relevantCategories.stream().map(StatCategory::getName)
+        .collect(Collectors.toList());
 
     assertEquals(9, relevantCategories.size());
     assertEquals(

@@ -1,7 +1,7 @@
-package com.warrencrasta.fantasy.yahoo.mapper;
+package com.fantasytoys.fantasy.yahoo.mapper;
 
-import com.warrencrasta.fantasy.yahoo.domain.season.YahooSeason;
-import com.warrencrasta.fantasy.yahoo.dto.external.yahoo.GameWrapperDTO;
+import com.fantasytoys.fantasy.yahoo.domain.season.YahooSeason;
+import com.fantasytoys.fantasy.yahoo.dto.external.yahoo.GameWrapperDTO;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;

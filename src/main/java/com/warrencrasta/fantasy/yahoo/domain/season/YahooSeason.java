@@ -1,4 +1,4 @@
-package com.warrencrasta.fantasy.yahoo.domain.season;
+package com.fantasytoys.fantasy.yahoo.domain.season;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;

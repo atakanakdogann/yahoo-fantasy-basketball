@@ -1,17 +1,17 @@
-package com.warrencrasta.fantasy.yahoo.service.core.trade;
+package com.fantasytoys.fantasy.yahoo.service.core.trade;
 
-import com.warrencrasta.fantasy.yahoo.domain.stat.StatCategory;
-import com.warrencrasta.fantasy.yahoo.domain.stat.TeamStatCategory;
-import com.warrencrasta.fantasy.yahoo.dto.external.yahoo.PlayerDTO;
-import com.warrencrasta.fantasy.yahoo.dto.external.yahoo.StatDTO;
-import com.warrencrasta.fantasy.yahoo.dto.external.yahoo.StatWrapperDTO;
-import com.warrencrasta.fantasy.yahoo.dto.internal.LeagueInfoDTO;
-import com.warrencrasta.fantasy.yahoo.dto.internal.TradeAnalysisRequestDTO;
-import com.warrencrasta.fantasy.yahoo.dto.internal.TradeAnalysisResultDTO;
-import com.warrencrasta.fantasy.yahoo.service.core.league.LeagueService;
-import com.warrencrasta.fantasy.yahoo.service.core.player.PlayerService;
-import com.warrencrasta.fantasy.yahoo.service.core.roster.RosterService;
-import com.warrencrasta.fantasy.yahoo.service.core.stat.StatService;
+import com.fantasytoys.fantasy.yahoo.domain.stat.StatCategory;
+import com.fantasytoys.fantasy.yahoo.domain.stat.TeamStatCategory;
+import com.fantasytoys.fantasy.yahoo.dto.external.yahoo.PlayerDTO;
+import com.fantasytoys.fantasy.yahoo.dto.external.yahoo.StatDTO;
+import com.fantasytoys.fantasy.yahoo.dto.external.yahoo.StatWrapperDTO;
+import com.fantasytoys.fantasy.yahoo.dto.internal.LeagueInfoDTO;
+import com.fantasytoys.fantasy.yahoo.dto.internal.TradeAnalysisRequestDTO;
+import com.fantasytoys.fantasy.yahoo.dto.internal.TradeAnalysisResultDTO;
+import com.fantasytoys.fantasy.yahoo.service.core.league.LeagueService;
+import com.fantasytoys.fantasy.yahoo.service.core.player.PlayerService;
+import com.fantasytoys.fantasy.yahoo.service.core.roster.RosterService;
+import com.fantasytoys.fantasy.yahoo.service.core.stat.StatService;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -300,7 +300,7 @@ public class YahooTradeAnalyzerServiceImpl implements TradeAnalyzerService {
         allPlayerKeys.addAll(request.getTeamBPlayerKeys());
 
         for (String playerKey : allPlayerKeys) {
-            PlayerDTO stats = playerService.getPlayerStatsForSeason(leagueId, playerKey, this.CURRENT_SEASON);
+            PlayerDTO stats = playerService.getPlayerStatsAverageLastMonth(leagueId, playerKey);
             if (stats != null)
                 playerCache.put(playerKey, stats);
         }

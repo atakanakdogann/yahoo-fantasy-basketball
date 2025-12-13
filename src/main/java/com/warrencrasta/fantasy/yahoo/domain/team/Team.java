@@ -1,4 +1,4 @@
-package com.warrencrasta.fantasy.yahoo.domain.team;
+package com.fantasytoys.fantasy.yahoo.domain.team;
 
 import lombok.Data;
 

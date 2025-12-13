@@ -1,11 +1,11 @@
-package com.warrencrasta.fantasy.yahoo.service.core.powerranking;
+package com.fantasytoys.fantasy.yahoo.service.core.powerranking;
 
-import com.warrencrasta.fantasy.yahoo.domain.stat.StatCategory;
-import com.warrencrasta.fantasy.yahoo.domain.stat.TeamStatCategory;
-import com.warrencrasta.fantasy.yahoo.domain.team.YahooTeam;
-import com.warrencrasta.fantasy.yahoo.dto.internal.LeagueInfoDTO;
-import com.warrencrasta.fantasy.yahoo.service.core.league.LeagueService;
-import com.warrencrasta.fantasy.yahoo.service.core.stat.StatService;
+import com.fantasytoys.fantasy.yahoo.domain.stat.StatCategory;
+import com.fantasytoys.fantasy.yahoo.domain.stat.TeamStatCategory;
+import com.fantasytoys.fantasy.yahoo.domain.team.YahooTeam;
+import com.fantasytoys.fantasy.yahoo.dto.internal.LeagueInfoDTO;
+import com.fantasytoys.fantasy.yahoo.service.core.league.LeagueService;
+import com.fantasytoys.fantasy.yahoo.service.core.stat.StatService;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;

@@ -1,7 +1,7 @@
-package com.warrencrasta.fantasy.yahoo.mapper;
+package com.fantasytoys.fantasy.yahoo.mapper;
 
-import com.warrencrasta.fantasy.yahoo.domain.team.YahooTeam;
-import com.warrencrasta.fantasy.yahoo.dto.external.yahoo.TeamWrapperDTO;
+import com.fantasytoys.fantasy.yahoo.domain.team.YahooTeam;
+import com.fantasytoys.fantasy.yahoo.dto.external.yahoo.TeamWrapperDTO;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;

@@ -1,6 +1,6 @@
-package com.warrencrasta.fantasy.yahoo.dto.internal;
+package com.fantasytoys.fantasy.yahoo.dto.internal;
 
-import com.warrencrasta.fantasy.yahoo.dto.external.yahoo.PlayerDTO;
+import com.fantasytoys.fantasy.yahoo.dto.external.yahoo.PlayerDTO;
 import java.util.List;
 import java.util.Map;
 import lombok.Data;

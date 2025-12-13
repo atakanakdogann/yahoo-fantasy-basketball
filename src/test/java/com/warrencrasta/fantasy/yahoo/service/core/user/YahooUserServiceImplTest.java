@@ -1,16 +1,16 @@
-package com.warrencrasta.fantasy.yahoo.service.core.user;
+package com.fantasytoys.fantasy.yahoo.service.core.user;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.Mockito.when;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.warrencrasta.fantasy.yahoo.domain.league.YahooLeague;
-import com.warrencrasta.fantasy.yahoo.domain.season.YahooSeason;
-import com.warrencrasta.fantasy.yahoo.dto.external.yahoo.FantasyResponseDTO;
-import com.warrencrasta.fantasy.yahoo.mapper.LeagueMapper;
-import com.warrencrasta.fantasy.yahoo.mapper.SeasonMapper;
-import com.warrencrasta.fantasy.yahoo.service.client.YahooClient;
+import com.fantasytoys.fantasy.yahoo.domain.league.YahooLeague;
+import com.fantasytoys.fantasy.yahoo.domain.season.YahooSeason;
+import com.fantasytoys.fantasy.yahoo.dto.external.yahoo.FantasyResponseDTO;
+import com.fantasytoys.fantasy.yahoo.mapper.LeagueMapper;
+import com.fantasytoys.fantasy.yahoo.mapper.SeasonMapper;
+import com.fantasytoys.fantasy.yahoo.service.client.YahooClient;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -27,9 +27,12 @@ import org.mockito.junit.jupiter.MockitoExtension;
 class YahooUserServiceImplTest {
 
   private final ObjectMapper objectMapper = new ObjectMapper();
-  @Mock private YahooClient yahooClient;
-  @Mock private SeasonMapper seasonMapper;
-  @Mock private LeagueMapper leagueMapper;
+  @Mock
+  private YahooClient yahooClient;
+  @Mock
+  private SeasonMapper seasonMapper;
+  @Mock
+  private LeagueMapper leagueMapper;
   private YahooUserServiceImpl yahooUserService;
 
   @BeforeEach
@@ -42,8 +45,8 @@ class YahooUserServiceImplTest {
     String resourceUriFragment = "/users;use_login=1/games;game_codes=nba";
     String mockFantasyResponseGamesPath = "src/test/resources/yahoo/nba_games_mock.json";
 
-    FantasyResponseDTO response =
-        objectMapper.readValue(new File(mockFantasyResponseGamesPath), FantasyResponseDTO.class);
+    FantasyResponseDTO response = objectMapper.readValue(new File(mockFantasyResponseGamesPath),
+        FantasyResponseDTO.class);
     List<YahooSeason> yahooSeasons = new ArrayList<>();
     yahooSeasons.add(new YahooSeason("395", "2019"));
     yahooSeasons.add(new YahooSeason("402", "2020"));
@@ -65,8 +68,8 @@ class YahooUserServiceImplTest {
     String resourceUriFragment = "/users;use_login=1/games;game_keys={game_key}/leagues";
     String mockFantasyResponseLeaguesPath = "src/test/resources/yahoo/nba_leagues_mock.json";
 
-    FantasyResponseDTO response =
-        objectMapper.readValue(new File(mockFantasyResponseLeaguesPath), FantasyResponseDTO.class);
+    FantasyResponseDTO response = objectMapper.readValue(new File(mockFantasyResponseLeaguesPath),
+        FantasyResponseDTO.class);
     List<YahooLeague> yahooLeagues = new ArrayList<>();
     yahooLeagues.add(new YahooLeague("395.l.37133", "Father Stretch the Floor"));
     yahooLeagues.add(new YahooLeague("395.l.37134", "Another Test League"));

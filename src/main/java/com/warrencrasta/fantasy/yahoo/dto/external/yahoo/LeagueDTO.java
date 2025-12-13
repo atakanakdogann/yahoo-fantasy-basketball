@@ -1,4 +1,4 @@
-package com.warrencrasta.fantasy.yahoo.dto.external.yahoo;
+package com.fantasytoys.fantasy.yahoo.dto.external.yahoo;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -11,13 +11,13 @@ public class LeagueDTO {
 
   private String name;
 
-  @JsonAlias({"league_key"})
+  @JsonAlias({ "league_key" })
   private String leagueKey;
 
-  @JsonAlias({"current_week"})
+  @JsonAlias({ "current_week" })
   private String currentWeek;
 
-  @JsonAlias({"start_week"})
+  @JsonAlias({ "start_week" })
   private String startWeek;
 
   private List<TeamWrapperDTO> teams;

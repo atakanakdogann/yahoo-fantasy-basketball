@@ -1,13 +1,13 @@
-package com.warrencrasta.fantasy.yahoo.service.core.user;
+package com.fantasytoys.fantasy.yahoo.service.core.user;
 
-import com.warrencrasta.fantasy.yahoo.domain.league.YahooLeague;
-import com.warrencrasta.fantasy.yahoo.domain.season.YahooSeason;
-import com.warrencrasta.fantasy.yahoo.dto.external.yahoo.FantasyContentDTO;
-import com.warrencrasta.fantasy.yahoo.dto.external.yahoo.GameWrapperDTO;
-import com.warrencrasta.fantasy.yahoo.dto.external.yahoo.LeagueWrapperDTO;
-import com.warrencrasta.fantasy.yahoo.mapper.LeagueMapper;
-import com.warrencrasta.fantasy.yahoo.mapper.SeasonMapper;
-import com.warrencrasta.fantasy.yahoo.service.client.YahooClient;
+import com.fantasytoys.fantasy.yahoo.domain.league.YahooLeague;
+import com.fantasytoys.fantasy.yahoo.domain.season.YahooSeason;
+import com.fantasytoys.fantasy.yahoo.dto.external.yahoo.FantasyContentDTO;
+import com.fantasytoys.fantasy.yahoo.dto.external.yahoo.GameWrapperDTO;
+import com.fantasytoys.fantasy.yahoo.dto.external.yahoo.LeagueWrapperDTO;
+import com.fantasytoys.fantasy.yahoo.mapper.LeagueMapper;
+import com.fantasytoys.fantasy.yahoo.mapper.SeasonMapper;
+import com.fantasytoys.fantasy.yahoo.service.client.YahooClient;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;

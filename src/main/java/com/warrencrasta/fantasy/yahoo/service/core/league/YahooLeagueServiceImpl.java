@@ -1,15 +1,15 @@
-package com.warrencrasta.fantasy.yahoo.service.core.league;
+package com.fantasytoys.fantasy.yahoo.service.core.league;
 
-import com.warrencrasta.fantasy.yahoo.domain.stat.StatCategory;
-import com.warrencrasta.fantasy.yahoo.domain.team.YahooTeam;
-import com.warrencrasta.fantasy.yahoo.dto.external.yahoo.FantasyContentDTO;
-import com.warrencrasta.fantasy.yahoo.dto.external.yahoo.LeagueDTO;
-import com.warrencrasta.fantasy.yahoo.dto.external.yahoo.StatWrapperDTO;
-import com.warrencrasta.fantasy.yahoo.dto.external.yahoo.TeamWrapperDTO;
-import com.warrencrasta.fantasy.yahoo.dto.internal.LeagueInfoDTO;
-import com.warrencrasta.fantasy.yahoo.mapper.TeamMapper;
-import com.warrencrasta.fantasy.yahoo.service.client.YahooClient;
-import com.warrencrasta.fantasy.yahoo.service.core.sos.StrengthOfScheduleService;
+import com.fantasytoys.fantasy.yahoo.domain.stat.StatCategory;
+import com.fantasytoys.fantasy.yahoo.domain.team.YahooTeam;
+import com.fantasytoys.fantasy.yahoo.dto.external.yahoo.FantasyContentDTO;
+import com.fantasytoys.fantasy.yahoo.dto.external.yahoo.LeagueDTO;
+import com.fantasytoys.fantasy.yahoo.dto.external.yahoo.StatWrapperDTO;
+import com.fantasytoys.fantasy.yahoo.dto.external.yahoo.TeamWrapperDTO;
+import com.fantasytoys.fantasy.yahoo.dto.internal.LeagueInfoDTO;
+import com.fantasytoys.fantasy.yahoo.mapper.TeamMapper;
+import com.fantasytoys.fantasy.yahoo.service.client.YahooClient;
+import com.fantasytoys.fantasy.yahoo.service.core.sos.StrengthOfScheduleService;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -25,7 +25,7 @@ public class YahooLeagueServiceImpl implements LeagueService {
   private final TeamMapper teamMapper;
   private final StrengthOfScheduleService strengthOfScheduleService;
 
-  public YahooLeagueServiceImpl(YahooClient yahooClient, TeamMapper teamMapper, 
+  public YahooLeagueServiceImpl(YahooClient yahooClient, TeamMapper teamMapper,
       @Lazy StrengthOfScheduleService strengthOfScheduleService) {
     this.yahooClient = yahooClient;
     this.teamMapper = teamMapper;
@@ -38,8 +38,7 @@ public class YahooLeagueServiceImpl implements LeagueService {
     uriVariables.put("league_key", leagueId);
     var resourceUriFragment = "/league/{league_key}/teams";
 
-    FantasyContentDTO fantasyContent =
-        yahooClient.getFantasyContent(uriVariables, resourceUriFragment);
+    FantasyContentDTO fantasyContent = yahooClient.getFantasyContent(uriVariables, resourceUriFragment);
     var leagueDTO = fantasyContent.getLeague();
     List<YahooTeam> teams = extractTeams(leagueDTO);
     teams.sort(Comparator.comparing(YahooTeam::getName));
@@ -55,16 +54,14 @@ public class YahooLeagueServiceImpl implements LeagueService {
   @Override
   public LeagueInfoDTO getLeagueInfoWithSos(String leagueId) {
     LeagueInfoDTO leagueInfoDTO = this.getLeagueInfo(leagueId);
-    
+
     Map<String, String> uriVariables = new HashMap<>();
     uriVariables.put("league_key", leagueId);
-    FantasyContentDTO fantasyContent = 
-        yahooClient.getFantasyContent(uriVariables, "/league/{league_key}/teams");
+    FantasyContentDTO fantasyContent = yahooClient.getFantasyContent(uriVariables, "/league/{league_key}/teams");
     var leagueDTO = fantasyContent.getLeague();
 
     try {
-      Map<String, Double> sosMap =
-          strengthOfScheduleService.calculateStrengthOfScheduleForLeague(leagueId, leagueDTO);
+      Map<String, Double> sosMap = strengthOfScheduleService.calculateStrengthOfScheduleForLeague(leagueId, leagueDTO);
 
       for (YahooTeam team : leagueInfoDTO.getTeams()) {
         Double sosScore = sosMap.get(team.getId());
@@ -88,24 +85,22 @@ public class YahooLeagueServiceImpl implements LeagueService {
     var resourceUriFragment = "/league/{league_key}/settings";
 
     // 1. Veriyi çek
-    FantasyContentDTO fantasyContent =
-        yahooClient.getFantasyContent(uriVariables, resourceUriFragment);
-    
+    FantasyContentDTO fantasyContent = yahooClient.getFantasyContent(uriVariables, resourceUriFragment);
+
     // DTO'ların doğru yüklendiğinden emin olmak için null kontrolü
-    if (fantasyContent == null || fantasyContent.getLeague() == null 
-        || fantasyContent.getLeague().getSettings() == null 
+    if (fantasyContent == null || fantasyContent.getLeague() == null
+        || fantasyContent.getLeague().getSettings() == null
         || fantasyContent.getLeague().getSettings().getStatCategories() == null) {
       return List.of();
     }
-        
-    List<StatWrapperDTO> statWrapperDTOs =
-        fantasyContent.getLeague().getSettings().getStatCategories().getStats();
+
+    List<StatWrapperDTO> statWrapperDTOs = fantasyContent.getLeague().getSettings().getStatCategories().getStats();
 
     List<StatCategory> relevantCategories = new ArrayList<>();
     for (StatWrapperDTO statWrapperDTO : statWrapperDTOs) {
       // getStat() Lombok tarafından StatWrapperDTO içinde oluşturulmuştur
-      var statDTO = statWrapperDTO.getStat(); 
-      
+      var statDTO = statWrapperDTO.getStat();
+
       // 2. Sadece ana istatistikleri filtrele (sadece görüntüleme statlarını atla)
       // EKSİK METOTLAR ARTIK 1. ADIM'DA EKLENDİĞİ İÇİN BU ÇALIŞIR
       if (statDTO.getIsOnlyDisplayStat() != null && statDTO.getIsOnlyDisplayStat().equals("1")) {
@@ -114,7 +109,7 @@ public class YahooLeagueServiceImpl implements LeagueService {
 
       // 3. Yeni StatCategory nesnesini oluştur ve doldur
       var statCategory = new StatCategory(); // >> Boş constructor (@NoArgsConstructor) kullanılır
-      
+
       statCategory.setId(statDTO.getStatId());
       statCategory.setName(statDTO.getDisplayName()); // >> getDisplayName() artık var
       // Sort Order 0 ise kötüdür (örn: TO), 1 ise iyidir
@@ -150,26 +145,24 @@ public class YahooLeagueServiceImpl implements LeagueService {
     uriVariables.put("league_key", leagueId);
     var resourceUriFragment = "/league/{league_key}/standings";
 
-    FantasyContentDTO fantasyContent =
-        yahooClient.getFantasyContent(uriVariables, resourceUriFragment);
+    FantasyContentDTO fantasyContent = yahooClient.getFantasyContent(uriVariables, resourceUriFragment);
 
     Map<String, Double> teamWinRates = new HashMap<>();
 
-    List<TeamWrapperDTO> teamWrappers =
-        fantasyContent.getLeague().getStandings().getTeams();
+    List<TeamWrapperDTO> teamWrappers = fantasyContent.getLeague().getStandings().getTeams();
 
     for (TeamWrapperDTO teamWrapper : teamWrappers) {
       var teamDTO = teamWrapper.getTeam();
       String teamKey = teamDTO.getTeamKey();
-      
+
       var outcomes = teamDTO.getTeamStandings().getOutcomeTotals();
-      
+
       double wins = Double.parseDouble(outcomes.getWins());
       double losses = Double.parseDouble(outcomes.getLosses());
       double ties = Double.parseDouble(outcomes.getTies());
-      
+
       double totalGames = wins + losses + ties;
-      
+
       double winRate = 0.0;
       if (totalGames > 0) {
         winRate = (wins + (ties * 0.5)) / totalGames;

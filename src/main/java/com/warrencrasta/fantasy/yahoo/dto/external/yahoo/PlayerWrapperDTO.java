@@ -1,4 +1,4 @@
-package com.warrencrasta.fantasy.yahoo.dto.external.yahoo;
+package com.fantasytoys.fantasy.yahoo.dto.external.yahoo;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.core.JsonParser;
@@ -19,7 +19,7 @@ public class PlayerWrapperDTO {
 
   public static class PlayerWrapperDeserializer extends JsonDeserializer<PlayerWrapperDTO> {
     @Override
-    public PlayerWrapperDTO deserialize(JsonParser p, DeserializationContext ctxt) 
+    public PlayerWrapperDTO deserialize(JsonParser p, DeserializationContext ctxt)
         throws IOException {
       PlayerWrapperDTO wrapper = new PlayerWrapperDTO();
       ObjectCodec codec = p.getCodec();

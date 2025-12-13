@@ -1,4 +1,4 @@
-package com.warrencrasta.fantasy.yahoo.domain.season;
+package com.fantasytoys.fantasy.yahoo.domain.season;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -1,4 +1,4 @@
-package com.warrencrasta.fantasy.yahoo.dto.external.yahoo;
+package com.fantasytoys.fantasy.yahoo.dto.external.yahoo;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -21,10 +21,10 @@ public class PlayerDTO {
   private String playerKey;
 
   private NameDTO name;
-  
+
   @JsonAlias("editorial_team_abbr")
   private String editorialTeamAbbr;
-  
+
   @JsonAlias("display_position")
   private String displayPosition;
 
@@ -46,7 +46,8 @@ public class PlayerDTO {
       ObjectCodec codec = p.getCodec();
       JsonNode node = codec.readTree(p);
 
-      // Eğer Yahoo veriyi DİZİ [] olarak gönderirse (Week/Season Stats çağrıları için)
+      // Eğer Yahoo veriyi DİZİ [] olarak gönderirse (Week/Season Stats çağrıları
+      // için)
       if (node.isArray()) {
         for (JsonNode element : node) {
           // 1. Temel Bilgiler (player_key, name, team_abbr)
@@ -63,7 +64,7 @@ public class PlayerDTO {
         mapBasicFields(dto, node, codec);
         mapStats(dto, node, codec);
       }
-      
+
       return dto;
     }
 
@@ -72,13 +73,13 @@ public class PlayerDTO {
       try {
         if (node.has("player_key")) {
           dto.setPlayerKey(node.get("player_key").asText());
-        } 
+        }
         if (node.has("editorial_team_abbr")) {
           dto.setEditorialTeamAbbr(node.get("editorial_team_abbr").asText());
-        } 
+        }
         if (node.has("display_position")) {
           dto.setDisplayPosition(node.get("display_position").asText());
-        } 
+        }
         if (node.has("name")) {
           dto.setName(codec.treeToValue(node.get("name"), NameDTO.class));
         }
@@ -87,7 +88,7 @@ public class PlayerDTO {
           Map<String, String> schedule = codec.treeToValue(node.get("game_schedule"), Map.class);
           dto.setGameSchedule(schedule);
         }
-      } catch (Exception e) { 
+      } catch (Exception e) {
         System.err.println("PlayerDTO Basic Field Mapping Error: " + e.getMessage());
       }
     }
@@ -99,7 +100,7 @@ public class PlayerDTO {
           // PlayerStatsDTO'ya çevir
           PlayerStatsDTO stats = codec.treeToValue(node.get("player_stats"), PlayerStatsDTO.class);
           dto.setPlayerStats(stats);
-        } catch (Exception e) { 
+        } catch (Exception e) {
           // BU SATIRI EKLEYİN:
           System.err.println("PLAYER STATS PARSE HATASI: " + e.getMessage());
           e.printStackTrace();

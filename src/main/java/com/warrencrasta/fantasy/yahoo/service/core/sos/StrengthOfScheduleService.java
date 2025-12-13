@@ -1,9 +1,9 @@
-package com.warrencrasta.fantasy.yahoo.service.core.sos;
+package com.fantasytoys.fantasy.yahoo.service.core.sos;
 
-import com.warrencrasta.fantasy.yahoo.dto.external.yahoo.LeagueDTO;
-import com.warrencrasta.fantasy.yahoo.dto.external.yahoo.YahooMatchupDTO;
-import com.warrencrasta.fantasy.yahoo.service.core.league.LeagueService;
-import com.warrencrasta.fantasy.yahoo.service.core.stat.StatService;
+import com.fantasytoys.fantasy.yahoo.dto.external.yahoo.LeagueDTO;
+import com.fantasytoys.fantasy.yahoo.dto.external.yahoo.YahooMatchupDTO;
+import com.fantasytoys.fantasy.yahoo.service.core.league.LeagueService;
+import com.fantasytoys.fantasy.yahoo.service.core.stat.StatService;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,7 +23,7 @@ public class StrengthOfScheduleService {
 
   public Map<String, Double> calculateStrengthOfScheduleForLeague(
       String leagueId, LeagueDTO leagueInfo) {
-      
+
     Map<String, Double> teamWinRates = leagueService.getLeagueWinRates(leagueId);
 
     int currentWeek = Integer.parseInt(leagueInfo.getCurrentWeek());
@@ -54,7 +54,7 @@ public class StrengthOfScheduleService {
           totalOpponentWinRate += opponentWinRate;
         }
       }
-        
+
       double averageOpponentWinRate = totalOpponentWinRate / remainingMatchups.size();
       strengthOfScheduleMap.put(teamKey, averageOpponentWinRate);
     }

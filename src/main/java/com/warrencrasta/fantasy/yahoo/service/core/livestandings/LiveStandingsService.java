@@ -1,14 +1,14 @@
-package com.warrencrasta.fantasy.yahoo.service.core.livestandings;
+package com.fantasytoys.fantasy.yahoo.service.core.livestandings;
 
-import com.warrencrasta.fantasy.yahoo.domain.stat.StatCategory;
-import com.warrencrasta.fantasy.yahoo.domain.team.YahooTeam;
-import com.warrencrasta.fantasy.yahoo.dto.external.yahoo.FantasyContentDTO;
-import com.warrencrasta.fantasy.yahoo.dto.external.yahoo.MatchupWrapperDTO;
-import com.warrencrasta.fantasy.yahoo.dto.external.yahoo.TeamDTO;
-import com.warrencrasta.fantasy.yahoo.dto.external.yahoo.TeamWrapperDTO;
-import com.warrencrasta.fantasy.yahoo.dto.external.yahoo.YahooMatchupDTO;
-import com.warrencrasta.fantasy.yahoo.service.client.YahooClient;
-import com.warrencrasta.fantasy.yahoo.service.core.league.LeagueService;
+import com.fantasytoys.fantasy.yahoo.domain.stat.StatCategory;
+import com.fantasytoys.fantasy.yahoo.domain.team.YahooTeam;
+import com.fantasytoys.fantasy.yahoo.dto.external.yahoo.FantasyContentDTO;
+import com.fantasytoys.fantasy.yahoo.dto.external.yahoo.MatchupWrapperDTO;
+import com.fantasytoys.fantasy.yahoo.dto.external.yahoo.TeamDTO;
+import com.fantasytoys.fantasy.yahoo.dto.external.yahoo.TeamWrapperDTO;
+import com.fantasytoys.fantasy.yahoo.dto.external.yahoo.YahooMatchupDTO;
+import com.fantasytoys.fantasy.yahoo.service.client.YahooClient;
+import com.fantasytoys.fantasy.yahoo.service.core.league.LeagueService;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -32,7 +32,7 @@ public class LiveStandingsService {
 
     Map<String, String> uriVariables = new HashMap<>();
     uriVariables.put("league_key", leagueId);
-    
+
     FantasyContentDTO standingsContent = yahooClient.getFantasyContent(
         uriVariables, "/league/{league_key}/standings");
     String currentWeek = standingsContent.getLeague().getCurrentWeek();
@@ -44,23 +44,23 @@ public class LiveStandingsService {
       var outcomes = teamDTO.getTeamStandings().getOutcomeTotals();
 
       YahooTeam liveTeam = new YahooTeam();
-      liveTeam.setId(teamDTO.getTeamKey()); 
+      liveTeam.setId(teamDTO.getTeamKey());
       liveTeam.setName(teamDTO.getName());
-      
+
       liveTeam.addWeeklyWins(Double.parseDouble(outcomes.getWins()));
       liveTeam.addWeeklyTies(Double.parseDouble(outcomes.getTies()));
-      int played = Integer.parseInt(outcomes.getWins())  
-                    + Integer.parseInt(outcomes.getLosses()) 
-                    + Integer.parseInt(outcomes.getTies());
+      int played = Integer.parseInt(outcomes.getWins())
+          + Integer.parseInt(outcomes.getLosses())
+          + Integer.parseInt(outcomes.getTies());
       liveTeam.addWeeklyCategoriesPlayed(played);
-      
+
       liveTeamsMap.put(liveTeam.getId(), liveTeam);
     }
 
     FantasyContentDTO scoreboardContent = yahooClient.getFantasyContent(
         uriVariables, "/league/{league_key}/scoreboard;week=" + currentWeek);
-    
-    if (scoreboardContent.getLeague().getScoreboard() == null 
+
+    if (scoreboardContent.getLeague().getScoreboard() == null
         || scoreboardContent.getLeague().getScoreboard().getMatchups() == null) {
       return finalizeStandings(liveTeamsMap);
     }
@@ -69,7 +69,7 @@ public class LiveStandingsService {
 
     for (MatchupWrapperDTO matchupWrapper : matchups) {
       YahooMatchupDTO matchup = matchupWrapper.getMatchup();
-      
+
       TeamDTO team1 = matchup.getTeams().get(0).getTeam();
       TeamDTO team2 = matchup.getTeams().get(1).getTeam();
 
@@ -118,28 +118,28 @@ public class LiveStandingsService {
             wins1++;
           } else {
             wins2++;
-          } 
+          }
         }
       } else {
         ties++;
       }
     }
 
-    return new double[]{wins1, wins2, ties};
+    return new double[] { wins1, wins2, ties };
   }
 
   private String findStatValue(TeamDTO team, String statId) {
     return team.getTeamStats().getStats().stream()
-            .filter(s -> s.getStat().getStatId().equals(statId))
-            .findFirst()
-            .map(s -> s.getStat().getValue())
-            .orElse("-");
+        .filter(s -> s.getStat().getStatId().equals(statId))
+        .findFirst()
+        .map(s -> s.getStat().getValue())
+        .orElse("-");
   }
 
   private boolean isNumeric(String str) {
     if (str == null || str.equals("-")) {
       return false;
-    } 
+    }
     try {
       Double.parseDouble(str);
       return true;

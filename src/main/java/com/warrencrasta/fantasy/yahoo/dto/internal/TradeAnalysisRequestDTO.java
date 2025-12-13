@@ -1,4 +1,4 @@
-package com.warrencrasta.fantasy.yahoo.dto.internal;
+package com.fantasytoys.fantasy.yahoo.dto.internal;
 
 import java.util.List;
 import lombok.Data;
@@ -7,7 +7,7 @@ import lombok.Data;
 public class TradeAnalysisRequestDTO {
   // Takım A'nın (kullanıcının) verdiği oyuncuların playerKey'leri
   private List<String> teamAPlayerKeys;
-  
+
   // Takım A'nın aldığı oyuncuların (rakip + filler) playerKey'leri
   private List<String> teamBPlayerKeys;
 }

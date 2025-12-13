@@ -1,14 +1,14 @@
-package com.warrencrasta.fantasy.yahoo.service.core.stat;
+package com.fantasytoys.fantasy.yahoo.service.core.stat;
 
-import com.warrencrasta.fantasy.yahoo.domain.stat.StatCategory;
-import com.warrencrasta.fantasy.yahoo.domain.stat.TeamStatCategory;
-import com.warrencrasta.fantasy.yahoo.dto.external.yahoo.FantasyContentDTO;
-import com.warrencrasta.fantasy.yahoo.dto.external.yahoo.MatchupWrapperDTO;
-import com.warrencrasta.fantasy.yahoo.dto.external.yahoo.StatWrapperDTO;
-import com.warrencrasta.fantasy.yahoo.dto.external.yahoo.TeamDTO;
-import com.warrencrasta.fantasy.yahoo.dto.external.yahoo.TeamWrapperDTO;
-import com.warrencrasta.fantasy.yahoo.dto.external.yahoo.YahooMatchupDTO;
-import com.warrencrasta.fantasy.yahoo.service.client.YahooClient;
+import com.fantasytoys.fantasy.yahoo.domain.stat.StatCategory;
+import com.fantasytoys.fantasy.yahoo.domain.stat.TeamStatCategory;
+import com.fantasytoys.fantasy.yahoo.dto.external.yahoo.FantasyContentDTO;
+import com.fantasytoys.fantasy.yahoo.dto.external.yahoo.MatchupWrapperDTO;
+import com.fantasytoys.fantasy.yahoo.dto.external.yahoo.StatWrapperDTO;
+import com.fantasytoys.fantasy.yahoo.dto.external.yahoo.TeamDTO;
+import com.fantasytoys.fantasy.yahoo.dto.external.yahoo.TeamWrapperDTO;
+import com.fantasytoys.fantasy.yahoo.dto.external.yahoo.YahooMatchupDTO;
+import com.fantasytoys.fantasy.yahoo.service.client.YahooClient;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -32,11 +32,9 @@ public class YahooStatServiceImpl implements StatService {
     uriVariables.put("week", week);
     var resourceUriFragment = "/league/{league_key}/scoreboard;week={week}";
 
-    FantasyContentDTO fantasyContent =
-        yahooClient.getFantasyContent(uriVariables, resourceUriFragment);
+    FantasyContentDTO fantasyContent = yahooClient.getFantasyContent(uriVariables, resourceUriFragment);
 
-    List<MatchupWrapperDTO> matchupWrapperDTOs =
-        fantasyContent.getLeague().getScoreboard().getMatchups();
+    List<MatchupWrapperDTO> matchupWrapperDTOs = fantasyContent.getLeague().getScoreboard().getMatchups();
 
     return populateAllTeamsStats(relevantCategories, matchupWrapperDTOs);
   }
@@ -95,14 +93,12 @@ public class YahooStatServiceImpl implements StatService {
   public List<YahooMatchupDTO> getSeasonMatchupsForTeam(String teamKey) {
     Map<String, String> uriVariables = new HashMap<>();
     uriVariables.put("team_key", teamKey);
-    
+
     var resourceUriFragment = "/team/{team_key}/matchups";
 
-    FantasyContentDTO fantasyContent =
-        yahooClient.getFantasyContent(uriVariables, resourceUriFragment);
+    FantasyContentDTO fantasyContent = yahooClient.getFantasyContent(uriVariables, resourceUriFragment);
 
-    List<MatchupWrapperDTO> matchupWrappers = 
-        fantasyContent.getTeam().getMatchups();
+    List<MatchupWrapperDTO> matchupWrappers = fantasyContent.getTeam().getMatchups();
 
     List<YahooMatchupDTO> seasonMatchups = new ArrayList<>();
     for (MatchupWrapperDTO wrapper : matchupWrappers) {

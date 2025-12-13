@@ -1,4 +1,4 @@
-package com.warrencrasta.fantasy.yahoo.dto.external.yahoo;
+package com.fantasytoys.fantasy.yahoo.dto.external.yahoo;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.util.List;

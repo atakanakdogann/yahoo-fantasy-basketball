@@ -1,6 +1,6 @@
-package com.warrencrasta.fantasy.yahoo.dto.internal;
+package com.fantasytoys.fantasy.yahoo.dto.internal;
 
-import com.warrencrasta.fantasy.yahoo.domain.team.YahooTeam;
+import com.fantasytoys.fantasy.yahoo.domain.team.YahooTeam;
 import java.util.List;
 import lombok.Data;
 

@@ -1,10 +1,10 @@
-package com.warrencrasta.fantasy.yahoo.service.core.scoreboard;
+package com.fantasytoys.fantasy.yahoo.service.core.scoreboard;
 
-import com.warrencrasta.fantasy.yahoo.domain.stat.StatCategory;
-import com.warrencrasta.fantasy.yahoo.domain.stat.TeamStatCategory;
-import com.warrencrasta.fantasy.yahoo.dto.internal.MatchupDTO;
-import com.warrencrasta.fantasy.yahoo.service.core.league.LeagueService;
-import com.warrencrasta.fantasy.yahoo.service.core.stat.StatService;
+import com.fantasytoys.fantasy.yahoo.domain.stat.StatCategory;
+import com.fantasytoys.fantasy.yahoo.domain.stat.TeamStatCategory;
+import com.fantasytoys.fantasy.yahoo.dto.internal.MatchupDTO;
+import com.fantasytoys.fantasy.yahoo.service.core.league.LeagueService;
+import com.fantasytoys.fantasy.yahoo.service.core.stat.StatService;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringJoiner;
@@ -27,8 +27,7 @@ public class YahooScoreboardServiceImpl implements ScoreboardService {
   @Override
   public List<MatchupDTO> getWeeklyMatchups(String leagueId, String week, String teamId) {
     List<StatCategory> relevantCategories = leagueService.getRelevantCategories(leagueId);
-    List<TeamStatCategory> allTeamsStats =
-        statService.getAllTeamsStats(leagueId, week, relevantCategories);
+    List<TeamStatCategory> allTeamsStats = statService.getAllTeamsStats(leagueId, week, relevantCategories);
     TeamStatCategory myStats = extractMyStats(teamId, allTeamsStats);
     if (myStats == null) {
       teamId = teamId.replaceAll("[\n\r\t]", "_");

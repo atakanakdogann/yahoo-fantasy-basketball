@@ -1,12 +1,12 @@
-package com.warrencrasta.fantasy.yahoo.dto.external.yahoo;
+package com.fantasytoys.fantasy.yahoo.dto.external.yahoo;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.util.List;
 import lombok.Data;
 
-@Data 
+@Data
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class PlayerStatsDTO { 
-  
-  private List<StatWrapperDTO> stats; 
+public class PlayerStatsDTO {
+
+  private List<StatWrapperDTO> stats;
 }

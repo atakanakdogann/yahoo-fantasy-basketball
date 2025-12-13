@@ -1,4 +1,4 @@
-package com.warrencrasta.fantasy.yahoo;
+package com.fantasytoys.fantasy.yahoo;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

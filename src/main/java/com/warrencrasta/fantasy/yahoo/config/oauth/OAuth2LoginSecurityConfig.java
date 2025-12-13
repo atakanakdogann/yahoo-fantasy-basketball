@@ -1,4 +1,4 @@
-package com.warrencrasta.fantasy.yahoo.config.oauth;
+package com.fantasytoys.fantasy.yahoo.config.oauth;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,8 +13,6 @@ import org.springframework.security.web.firewall.HttpStatusRequestRejectedHandle
 import org.springframework.security.web.firewall.RequestRejectedHandler;
 // --- Bu import 'build()' metodu için gerekli ---
 
-
-
 @EnableWebSecurity
 @Configuration
 public class OAuth2LoginSecurityConfig {
@@ -24,7 +22,7 @@ public class OAuth2LoginSecurityConfig {
   public OAuth2LoginSecurityConfig(ClientRegistrationRepository clientRegistrationRepository) {
     this.clientRegistrationRepository = clientRegistrationRepository;
   }
-  
+
   @Bean
   public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
     http
@@ -32,19 +30,14 @@ public class OAuth2LoginSecurityConfig {
             // CSS/JS/Resim (MIME type) sorununu çözer
             .antMatchers("/signin", "/examples", "/contact", "/css/**", "/js/**", "/images/**")
             .permitAll()
-            .anyRequest().authenticated()
-        )
+            .anyRequest().authenticated())
         .oauth2Login(oauth2 -> oauth2
             .loginPage("/signin")
             .defaultSuccessUrl("/matchup-comparisons", true)
             // HTTPS/Redirect Hatasını çözer
-            .authorizationEndpoint(endpoint -> 
-                endpoint.authorizationRequestResolver(
-                    authorizationRequestResolver(this.clientRegistrationRepository)
-                )
-            )
-        );
-        
+            .authorizationEndpoint(endpoint -> endpoint.authorizationRequestResolver(
+                authorizationRequestResolver(this.clientRegistrationRepository))));
+
     return http.build();
   }
 
@@ -53,28 +46,27 @@ public class OAuth2LoginSecurityConfig {
    * adres 'http://' ile başlıyorsa onu 'https://' olarak düzeltir.
    */
   private OAuth2AuthorizationRequestResolver authorizationRequestResolver(
-            ClientRegistrationRepository clientRegistrationRepository) {
+      ClientRegistrationRepository clientRegistrationRepository) {
 
-    DefaultOAuth2AuthorizationRequestResolver resolver = 
-        new DefaultOAuth2AuthorizationRequestResolver(
-            clientRegistrationRepository, "/oauth2/authorization");
+    DefaultOAuth2AuthorizationRequestResolver resolver = new DefaultOAuth2AuthorizationRequestResolver(
+        clientRegistrationRepository, "/oauth2/authorization");
 
     resolver.setAuthorizationRequestCustomizer(customizer -> {
-        
+
       // ==========================================================
       // >> HATA DÜZELTMESİ BURADA <<
       // ==========================================================
-      
+
       // 1. Önce 'customizer' (Builder) üzerinden 'request' nesnesini al
       OAuth2AuthorizationRequest request = customizer.build();
-      
+
       // 2. Şimdi 'request' nesnesinden URI'yi oku (getRedirectUri() DEĞİL)
       String originalRedirectUri = request.getRedirectUri();
 
       // 3. Kontrol et ve 'https' ile değiştir
       if (originalRedirectUri != null && originalRedirectUri.startsWith("http://")) {
         String secureRedirectUri = originalRedirectUri.replace("http://", "https://");
-        
+
         // 4. 'customizer' (Builder) üzerinde yeni URI'yi ayarla
         customizer.redirectUri(secureRedirectUri);
       }

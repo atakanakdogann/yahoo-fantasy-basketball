@@ -1,4 +1,4 @@
-package com.warrencrasta.fantasy.yahoo.domain.team;
+package com.fantasytoys.fantasy.yahoo.domain.team;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -16,11 +16,11 @@ public class YahooTeam extends Team {
   private transient double totalCategoriesTied = 0.0;
   private transient int totalCategoriesPlayed = 0;
   private transient double winRate = 0.0;
-  
+
   public void addWeeklyWins(double wins) {
     this.totalCategoriesWon += wins;
   }
-  
+
   public void addWeeklyTies(double ties) {
     this.totalCategoriesTied += ties;
   }
@@ -31,7 +31,7 @@ public class YahooTeam extends Team {
 
   public void calculateFinalWinRate() {
     if (totalCategoriesPlayed > 0) {
-      this.winRate = (this.totalCategoriesWon 
+      this.winRate = (this.totalCategoriesWon
           + (this.totalCategoriesTied * 0.5)) / this.totalCategoriesPlayed;
     }
   }

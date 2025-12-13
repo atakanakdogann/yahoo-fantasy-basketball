@@ -1,4 +1,4 @@
-package com.warrencrasta.fantasy.yahoo.controller.exception;
+package com.fantasytoys.fantasy.yahoo.controller.exception;
 
 import java.io.IOException;
 import javax.validation.ConstraintViolationException;

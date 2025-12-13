@@ -1,16 +1,16 @@
-package com.warrencrasta.fantasy.yahoo.controller.rest;
+package com.fantasytoys.fantasy.yahoo.controller.rest;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 
-import com.warrencrasta.fantasy.yahoo.service.core.league.LeagueService;
-import com.warrencrasta.fantasy.yahoo.service.core.livestandings.LiveStandingsService;
-import com.warrencrasta.fantasy.yahoo.service.core.player.PlayerService;
-import com.warrencrasta.fantasy.yahoo.service.core.powerranking.PowerRankingService;
-import com.warrencrasta.fantasy.yahoo.service.core.roster.RosterService;
-import com.warrencrasta.fantasy.yahoo.service.core.scoreboard.ScoreboardService;
-import com.warrencrasta.fantasy.yahoo.service.core.trade.TradeAnalyzerService;
+import com.fantasytoys.fantasy.yahoo.service.core.league.LeagueService;
+import com.fantasytoys.fantasy.yahoo.service.core.livestandings.LiveStandingsService;
+import com.fantasytoys.fantasy.yahoo.service.core.player.PlayerService;
+import com.fantasytoys.fantasy.yahoo.service.core.powerranking.PowerRankingService;
+import com.fantasytoys.fantasy.yahoo.service.core.roster.RosterService;
+import com.fantasytoys.fantasy.yahoo.service.core.scoreboard.ScoreboardService;
+import com.fantasytoys.fantasy.yahoo.service.core.trade.TradeAnalyzerService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -18,24 +18,31 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
-
 @ExtendWith(MockitoExtension.class)
 class LeagueControllerTest {
   private static final String LEAGUE_ID = "395.l.37133";
   private MockMvc mockMvc;
-  @Mock private LeagueService leagueService;
-  @Mock private LiveStandingsService liveStandingsService;
-  @Mock private ScoreboardService scoreboardService;
-  @Mock private PowerRankingService powerRankingService;
-  @Mock private PlayerService playerService;
-  @Mock private RosterService rosterService;
-  @Mock private TradeAnalyzerService tradeAnalyzerService;
+  @Mock
+  private LeagueService leagueService;
+  @Mock
+  private LiveStandingsService liveStandingsService;
+  @Mock
+  private ScoreboardService scoreboardService;
+  @Mock
+  private PowerRankingService powerRankingService;
+  @Mock
+  private PlayerService playerService;
+  @Mock
+  private RosterService rosterService;
+  @Mock
+  private TradeAnalyzerService tradeAnalyzerService;
 
   @BeforeEach
   void setUp() {
     this.mockMvc = standaloneSetup(
-        new LeagueController(leagueService, scoreboardService, powerRankingService, 
-            liveStandingsService, playerService, rosterService, tradeAnalyzerService)).build();
+        new LeagueController(leagueService, scoreboardService, powerRankingService,
+            liveStandingsService, playerService, rosterService, tradeAnalyzerService))
+        .build();
   }
 
   @Test

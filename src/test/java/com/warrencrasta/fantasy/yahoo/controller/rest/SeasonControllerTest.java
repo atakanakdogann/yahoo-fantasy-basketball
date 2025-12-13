@@ -1,4 +1,4 @@
-package com.warrencrasta.fantasy.yahoo.controller.rest;
+package com.fantasytoys.fantasy.yahoo.controller.rest;
 
 import static org.mockito.Mockito.doReturn;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -6,9 +6,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 
-import com.warrencrasta.fantasy.yahoo.domain.league.League;
-import com.warrencrasta.fantasy.yahoo.domain.league.YahooLeague;
-import com.warrencrasta.fantasy.yahoo.service.core.user.UserService;
+import com.fantasytoys.fantasy.yahoo.domain.league.League;
+import com.fantasytoys.fantasy.yahoo.domain.league.YahooLeague;
+import com.fantasytoys.fantasy.yahoo.service.core.user.UserService;
 import java.util.Collections;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
@@ -21,7 +21,8 @@ import org.springframework.test.web.servlet.MockMvc;
 @ExtendWith(MockitoExtension.class)
 class SeasonControllerTest {
   private MockMvc mockMvc;
-  @Mock private UserService userService;
+  @Mock
+  private UserService userService;
 
   @BeforeEach
   void setUp() {
@@ -31,8 +32,8 @@ class SeasonControllerTest {
   @Test
   void testGetLeagues() throws Exception {
     String seasonId = "395";
-    List<? extends League> leagues =
-        Collections.singletonList(new YahooLeague("395.l.37133", "Father Stretch the Floor"));
+    List<? extends League> leagues = Collections
+        .singletonList(new YahooLeague("395.l.37133", "Father Stretch the Floor"));
 
     doReturn(leagues).when(userService).getLeaguesForUser(seasonId);
 

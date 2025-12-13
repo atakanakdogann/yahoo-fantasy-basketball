@@ -1,10 +1,10 @@
-package com.warrencrasta.fantasy.yahoo.service.core.trade;
+package com.fantasytoys.fantasy.yahoo.service.core.trade;
 
-import com.warrencrasta.fantasy.yahoo.dto.internal.TradeAnalysisRequestDTO;
-import com.warrencrasta.fantasy.yahoo.dto.internal.TradeAnalysisResultDTO;
+import com.fantasytoys.fantasy.yahoo.dto.internal.TradeAnalysisRequestDTO;
+import com.fantasytoys.fantasy.yahoo.dto.internal.TradeAnalysisResultDTO;
 
 public interface TradeAnalyzerService {
-    
-  TradeAnalysisResultDTO analyzeTrade(String leagueId, String teamKey, 
+
+  TradeAnalysisResultDTO analyzeTrade(String leagueId, String teamKey,
       TradeAnalysisRequestDTO request);
 }

@@ -1,8 +1,7 @@
-package com.warrencrasta.fantasy.yahoo.dto.internal;
+package com.fantasytoys.fantasy.yahoo.dto.internal;
 
 import java.util.List;
 import lombok.Data;
-
 
 @Data
 public class MatchupDTO {

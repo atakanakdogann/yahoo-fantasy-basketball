@@ -1,8 +1,8 @@
-package com.warrencrasta.fantasy.yahoo.service.client;
+package com.fantasytoys.fantasy.yahoo.service.client;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.warrencrasta.fantasy.yahoo.dto.external.yahoo.FantasyContentDTO;
-import com.warrencrasta.fantasy.yahoo.dto.external.yahoo.FantasyResponseDTO;
+import com.fantasytoys.fantasy.yahoo.dto.external.yahoo.FantasyContentDTO;
+import com.fantasytoys.fantasy.yahoo.dto.external.yahoo.FantasyResponseDTO;
 import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
@@ -26,18 +26,18 @@ public class YahooClient {
   private final String yahooBaseUri;
   private final ObjectMapper objectMapper;
 
-  // Constructor değişti: Artık hazır WebClient yerine Builder ve AuthManager alıyoruz
+  // Constructor değişti: Artık hazır WebClient yerine Builder ve AuthManager
+  // alıyoruz
   public YahooClient(WebClient.Builder webClientBuilder,
-                     OAuth2AuthorizedClientManager authorizedClientManager,
-                     @Value("${yahoo.base.uri}") String yahooBaseUri,
-                     ObjectMapper objectMapper) {
-    
+      OAuth2AuthorizedClientManager authorizedClientManager,
+      @Value("${yahoo.base.uri}") String yahooBaseUri,
+      ObjectMapper objectMapper) {
+
     this.yahooBaseUri = yahooBaseUri;
     this.objectMapper = objectMapper;
 
     // 1. OAuth2 Ayarları (Giriş yapabilmek için)
-    var oauth2Client = 
-        new ServletOAuth2AuthorizedClientExchangeFilterFunction(authorizedClientManager);
+    var oauth2Client = new ServletOAuth2AuthorizedClientExchangeFilterFunction(authorizedClientManager);
     oauth2Client.setDefaultClientRegistrationId("yahoo");
 
     // 2. Hafıza Limiti (Büyük veriler için)
@@ -59,9 +59,9 @@ public class YahooClient {
         .build();
   }
 
-  public FantasyContentDTO getFantasyContent(Map<String, String> uriVariables, 
+  public FantasyContentDTO getFantasyContent(Map<String, String> uriVariables,
       String pathTemplate) {
-    
+
     // 1. Değişkenleri (örn: {team_key}) manuel olarak yerleştir
     String finalPath = pathTemplate;
     for (Map.Entry<String, String> entry : uriVariables.entrySet()) {
@@ -105,7 +105,7 @@ public class YahooClient {
 
     } catch (Exception e) {
       logger.error("Yahoo API Hatası (URL: {}): {}", fullFantasyUri, e.getMessage());
-      return null; 
+      return null;
     }
   }
 

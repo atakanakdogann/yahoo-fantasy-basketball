@@ -1,4 +1,4 @@
-package com.warrencrasta.fantasy.yahoo.controller.view;
+package com.fantasytoys.fantasy.yahoo.controller.view;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

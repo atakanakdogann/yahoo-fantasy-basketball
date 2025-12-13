@@ -1,4 +1,4 @@
-package com.warrencrasta.fantasy.yahoo.config.oauth;
+package com.fantasytoys.fantasy.yahoo.config.oauth;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,46 +17,45 @@ import org.springframework.web.util.DefaultUriBuilderFactory;
 @Configuration
 public class OAuth2Config {
 
-  /* https://docs.spring.io/spring-security/site/docs/current/reference/html5/#oauth2client */
-  @Bean
-  public OAuth2AuthorizedClientManager authorizedClientManager(
-      ClientRegistrationRepository clientRegistrationRepository,
-      OAuth2AuthorizedClientRepository authorizedClientRepository) {
+    /*
+     * https://docs.spring.io/spring-security/site/docs/current/reference/html5/#
+     * oauth2client
+     */
+    @Bean
+    public OAuth2AuthorizedClientManager authorizedClientManager(
+            ClientRegistrationRepository clientRegistrationRepository,
+            OAuth2AuthorizedClientRepository authorizedClientRepository) {
 
-    OAuth2AuthorizedClientProvider authorizedClientProvider =
-        OAuth2AuthorizedClientProviderBuilder.builder()
-            .authorizationCode()
-            .refreshToken()
-            .build();
+        OAuth2AuthorizedClientProvider authorizedClientProvider = OAuth2AuthorizedClientProviderBuilder.builder()
+                .authorizationCode()
+                .refreshToken()
+                .build();
 
-    var authorizedClientManager =
-        new DefaultOAuth2AuthorizedClientManager(
-            clientRegistrationRepository, authorizedClientRepository);
-    authorizedClientManager.setAuthorizedClientProvider(authorizedClientProvider);
+        var authorizedClientManager = new DefaultOAuth2AuthorizedClientManager(
+                clientRegistrationRepository, authorizedClientRepository);
+        authorizedClientManager.setAuthorizedClientProvider(authorizedClientProvider);
 
-    return authorizedClientManager;
-  }
+        return authorizedClientManager;
+    }
 
-  @Bean
-  public WebClient webClient(OAuth2AuthorizedClientManager authorizedClientManager) {
-    var oauth2Client =
-        new ServletOAuth2AuthorizedClientExchangeFilterFunction(authorizedClientManager);
-    oauth2Client.setDefaultClientRegistrationId("yahoo");
+    @Bean
+    public WebClient webClient(OAuth2AuthorizedClientManager authorizedClientManager) {
+        var oauth2Client = new ServletOAuth2AuthorizedClientExchangeFilterFunction(authorizedClientManager);
+        oauth2Client.setDefaultClientRegistrationId("yahoo");
 
-    final int bufferSize = 2 * 1024 * 1024;
-    final ExchangeStrategies strategies = ExchangeStrategies.builder()
-        .codecs(configurer -> configurer
-            .defaultCodecs()
-            .maxInMemorySize(bufferSize))
-        .build();
-    DefaultUriBuilderFactory factory = new DefaultUriBuilderFactory();
-    factory.setEncodingMode(DefaultUriBuilderFactory.EncodingMode.NONE);
+        final int bufferSize = 2 * 1024 * 1024;
+        final ExchangeStrategies strategies = ExchangeStrategies.builder()
+                .codecs(configurer -> configurer
+                        .defaultCodecs()
+                        .maxInMemorySize(bufferSize))
+                .build();
+        DefaultUriBuilderFactory factory = new DefaultUriBuilderFactory();
+        factory.setEncodingMode(DefaultUriBuilderFactory.EncodingMode.NONE);
 
-    return WebClient.builder()
-        .uriBuilderFactory(factory)
-        .apply(oauth2Client.oauth2Configuration())
-        .exchangeStrategies(strategies)
-        .build();
-  }
+        return WebClient.builder()
+                .uriBuilderFactory(factory)
+                .apply(oauth2Client.oauth2Configuration())
+                .exchangeStrategies(strategies)
+                .build();
+    }
 }
-
