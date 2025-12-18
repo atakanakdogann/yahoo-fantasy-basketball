@@ -114,7 +114,7 @@ public class YahooTradeAnalyzerServiceImpl implements TradeAnalyzerService {
         }
 
         TradeAnalysisResultDTO result = new TradeAnalysisResultDTO();
-        int totalWeeksAnalyzed = (currentWeek - startWeek);
+        int totalWeeksAnalyzed = (currentWeek - backtestStartWeek);
         int totalOpponents = leagueInfo.getTeams().size() - 1;
         int totalCategories = relevantCategories.size();
         double totalMatchupsPlayed = totalWeeksAnalyzed * totalOpponents * totalCategories;
