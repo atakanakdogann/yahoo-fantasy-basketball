@@ -65,8 +65,11 @@ public class LeagueController {
   }
 
   @GetMapping("/{leagueId}/power-rankings")
-  public List<YahooTeam> getPowerRankings(@PathVariable String leagueId) {
-    return powerRankingService.calculatePowerRankings(leagueId);
+  public List<YahooTeam> getPowerRankings(
+      @PathVariable String leagueId,
+      @RequestParam(required = false, defaultValue = "last6weeks") String period) {
+    boolean fullSeason = "fullseason".equalsIgnoreCase(period);
+    return powerRankingService.calculatePowerRankings(leagueId, fullSeason);
   }
 
   @GetMapping("/{leagueId}/matchup-comparisons")

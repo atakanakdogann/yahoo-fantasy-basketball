@@ -25,8 +25,13 @@ public class PowerRankingService {
     this.statService = statService;
   }
 
-  @Cacheable("power-rankings")
+  @Cacheable(value = "power-rankings", key = "#leagueId + '-last6weeks'")
   public List<YahooTeam> calculatePowerRankings(String leagueId) {
+    return calculatePowerRankings(leagueId, false);
+  }
+
+  @Cacheable(value = "power-rankings", key = "#leagueId + '-' + (#fullSeason ? 'fullseason' : 'last6weeks')")
+  public List<YahooTeam> calculatePowerRankings(String leagueId, boolean fullSeason) {
     List<StatCategory> relevantCategories = leagueService.getRelevantCategories(leagueId);
     LeagueInfoDTO leagueInfo = leagueService.getLeagueInfo(leagueId);
 
@@ -34,8 +39,8 @@ public class PowerRankingService {
     int actualStartWeek = Integer.parseInt(leagueInfo.getWeeks()
         .get(leagueInfo.getWeeks().size() - 1).replace("Week ", ""));
 
-    // Limit to the last 6 weeks as requested
-    int startWeek = Math.max(actualStartWeek, currentWeek - 5);
+    // Use full season or limit to last 6 weeks based on parameter
+    int startWeek = fullSeason ? actualStartWeek : Math.max(actualStartWeek, currentWeek - 5);
 
     Map<String, YahooTeam> rankingsMap = leagueInfo.getTeams().stream()
         .collect(Collectors.toMap(YahooTeam::getId, team -> team));
@@ -45,6 +50,11 @@ public class PowerRankingService {
           relevantCategories);
 
       if (allTeamsStats.isEmpty()) {
+        continue;
+      }
+
+      // Skip weeks where all stats are 0 (e.g., Monday before games have been played)
+      if (isWeekEmpty(allTeamsStats)) {
         continue;
       }
 
@@ -104,5 +114,21 @@ public class PowerRankingService {
       }
     }
     return new double[] { wins, ties };
+  }
+
+  /**
+   * Checks if a week has no meaningful stats (all zeros).
+   * This happens on Mondays before any games have been played.
+   */
+  private boolean isWeekEmpty(List<TeamStatCategory> allTeamsStats) {
+    for (TeamStatCategory teamStats : allTeamsStats) {
+      for (StatCategory stat : teamStats.getStatCategories()) {
+        double value = Double.parseDouble(stat.getValue());
+        if (value != 0.0) {
+          return false;
+        }
+      }
+    }
+    return true;
   }
 }

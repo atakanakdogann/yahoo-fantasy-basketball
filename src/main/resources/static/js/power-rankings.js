@@ -1,40 +1,36 @@
 $(document).ready(function () {
 
   var dataTableInstance = null;
+  var currentPeriod = 'last6weeks';
 
-  $('#season').on('change', function () {
-    var seasonId = $(this).val();
-    $('#league').empty().append('<option disabled="disabled" selected="selected">Loading leagues...</option>');
-    var $tableBody = $('#pr-table tbody');
+  function updateDescription() {
+    var desc = currentPeriod === 'fullseason'
+      ? "This ranking is based on each team's categorical win percentage against ALL other teams in the league, summed up across the entire season."
+      : "This ranking is based on each team's categorical win percentage against ALL other teams in the league, summed up across recent weeks.";
+    $('#pr-description').text(desc);
+  }
 
-    if ($.fn.DataTable.isDataTable('#pr-table')) {
-      dataTableInstance.destroy();
+  function updateToggleButtons() {
+    $('.period-toggle').removeClass('bg-indigo-500 text-white shadow-sm').addClass('text-slate-400 hover:text-slate-200');
+    if (currentPeriod === 'fullseason') {
+      $('#btn-fullseason').removeClass('text-slate-400 hover:text-slate-200').addClass('bg-indigo-500 text-white shadow-sm');
+    } else {
+      $('#btn-last6weeks').removeClass('text-slate-400 hover:text-slate-200').addClass('bg-indigo-500 text-white shadow-sm');
     }
-    $tableBody.html('<tr class="bg-slate-800/30 text-slate-400 text-center"><td colspan="4">Select a league to continue.</td></tr>');
+  }
 
-    $.get("/seasons/" + seasonId + "/leagues", function (data) {
-      var $leagueDropdown = $('#league');
-      $leagueDropdown.empty().append('<option disabled="disabled" selected="selected">Select a League</option>');
-      $.each(data, function (index, league) {
-        $leagueDropdown.append($('<option>', {
-          value: league.id,
-          text: league.name
-        }));
-      });
-    });
-  });
-
-  $('#league').on('change', function () {
-    var leagueId = $(this).val();
+  function fetchPowerRankings(leagueId) {
     var $tableBody = $('#pr-table tbody');
 
+    // Properly destroy existing DataTable if it exists
     if ($.fn.DataTable.isDataTable('#pr-table')) {
-      dataTableInstance.destroy();
+      $('#pr-table').DataTable().destroy();
+      dataTableInstance = null;
     }
 
     $tableBody.html('<tr class="bg-slate-800/30 text-slate-400 text-center"><td colspan="4">Calculating Power Rankings... Please wait.</td></tr>');
 
-    $.get("/leagues/" + leagueId + "/power-rankings", function (data) {
+    $.get("/leagues/" + leagueId + "/power-rankings?period=" + currentPeriod, function (data) {
       var teams = data;
       $tableBody.empty();
 
@@ -94,6 +90,58 @@ $(document).ready(function () {
         "order": [[0, "asc"]]
       });
     });
+  }
+
+  $('#season').on('change', function () {
+    var seasonId = $(this).val();
+    $('#league').empty().append('<option disabled="disabled" selected="selected">Loading leagues...</option>');
+    var $tableBody = $('#pr-table tbody');
+
+    if ($.fn.DataTable.isDataTable('#pr-table')) {
+      dataTableInstance.destroy();
+    }
+    $tableBody.html('<tr class="bg-slate-800/30 text-slate-400 text-center"><td colspan="4">Select a league to continue.</td></tr>');
+
+    $.get("/seasons/" + seasonId + "/leagues", function (data) {
+      var $leagueDropdown = $('#league');
+      $leagueDropdown.empty().append('<option disabled="disabled" selected="selected">Select a League</option>');
+      $.each(data, function (index, league) {
+        $leagueDropdown.append($('<option>', {
+          value: league.id,
+          text: league.name
+        }));
+      });
+    });
+  });
+
+  $('#league').on('change', function () {
+    var leagueId = $(this).val();
+    fetchPowerRankings(leagueId);
+  });
+
+  // Period toggle handlers
+  $('#btn-last6weeks').on('click', function () {
+    if (currentPeriod !== 'last6weeks') {
+      currentPeriod = 'last6weeks';
+      updateToggleButtons();
+      updateDescription();
+      var leagueId = $('#league').val();
+      if (leagueId && leagueId !== 'Select a League') {
+        fetchPowerRankings(leagueId);
+      }
+    }
+  });
+
+  $('#btn-fullseason').on('click', function () {
+    if (currentPeriod !== 'fullseason') {
+      currentPeriod = 'fullseason';
+      updateToggleButtons();
+      updateDescription();
+      var leagueId = $('#league').val();
+      if (leagueId && leagueId !== 'Select a League') {
+        fetchPowerRankings(leagueId);
+      }
+    }
   });
 
 });
