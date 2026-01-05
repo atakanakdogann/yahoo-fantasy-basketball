@@ -19,12 +19,23 @@ $(document).ready(function () {
     }
   }
 
+  function setButtonsLoading(loading) {
+    if (loading) {
+      $('.period-toggle').prop('disabled', true).addClass('opacity-50 cursor-not-allowed');
+    } else {
+      $('.period-toggle').prop('disabled', false).removeClass('opacity-50 cursor-not-allowed');
+    }
+  }
+
   function fetchPowerRankings(leagueId) {
     var $tableBody = $('#pr-table tbody');
 
+    // Disable buttons while loading
+    setButtonsLoading(true);
+
     // Properly destroy existing DataTable if it exists
     if ($.fn.DataTable.isDataTable('#pr-table')) {
-      $('#pr-table').DataTable().destroy();
+      $('#pr-table').DataTable().clear().destroy();
       dataTableInstance = null;
     }
 
@@ -87,8 +98,12 @@ $(document).ready(function () {
         "paging": false,
         "info": false,
         "autoWidth": false,
-        "order": [[0, "asc"]]
+        "order": [[0, "asc"]],
+        "retrieve": true
       });
+    }).always(function () {
+      // Re-enable buttons when done
+      setButtonsLoading(false);
     });
   }
 
@@ -98,7 +113,8 @@ $(document).ready(function () {
     var $tableBody = $('#pr-table tbody');
 
     if ($.fn.DataTable.isDataTable('#pr-table')) {
-      dataTableInstance.destroy();
+      $('#pr-table').DataTable().clear().destroy();
+      dataTableInstance = null;
     }
     $tableBody.html('<tr class="bg-slate-800/30 text-slate-400 text-center"><td colspan="4">Select a league to continue.</td></tr>');
 
@@ -121,6 +137,7 @@ $(document).ready(function () {
 
   // Period toggle handlers
   $('#btn-last6weeks').on('click', function () {
+    if ($(this).prop('disabled')) return;
     if (currentPeriod !== 'last6weeks') {
       currentPeriod = 'last6weeks';
       updateToggleButtons();
@@ -133,6 +150,7 @@ $(document).ready(function () {
   });
 
   $('#btn-fullseason').on('click', function () {
+    if ($(this).prop('disabled')) return;
     if (currentPeriod !== 'fullseason') {
       currentPeriod = 'fullseason';
       updateToggleButtons();
